@@ -4,6 +4,8 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import static primitives.Util.isZero;
+
 public class Tube implements Geometry{
 
     protected final Ray axisRay;
@@ -32,7 +34,19 @@ public class Tube implements Geometry{
 
     @Override
     public Vector getNormal(Point p) {
-        return null;
-    }
 
+
+        Point center;
+        //if point is the starting point of the ray
+        try{
+            //t = v * (p - p0)
+            double t = axisRay.getDir().dotProduct(p.subtract(axisRay.getP0()));
+            //center = p0 + t * v
+            center = axisRay.getP0().add(axisRay.getDir().scale(t));
+        }
+        catch (Exception IllegalArgumentException) {
+            center = axisRay.getP0();
+        }
+        return (p.subtract(center)).normalize();
+    }
 }

@@ -8,6 +8,9 @@ import java.util.Objects;
  * @author DW, AC
  */
 public class Point {
+
+    public static Point ZERO = new Point(0,0,0);
+
     protected Double3 xyz;
 
     public Point(Double3 xyz) {

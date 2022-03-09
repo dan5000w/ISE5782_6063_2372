@@ -2,9 +2,9 @@ package primitives;
 
 public class Vector extends Point{
 
-    public void isZero(){
+    public void isItZero(){
         if (xyz.equals((Double3.ZERO))){
-            throw new IllegalArgumentException("INVALID value cannot be zero");
+            throw new IllegalArgumentException("Invalid value cannot be zero!");
         }
     }
 
@@ -15,12 +15,12 @@ public class Vector extends Point{
 
     public Vector(double x, double y, double z) {
         super(x, y, z);
-        isZero();
+        isItZero();
     }
 
     public Vector(Double3 xyz) {
         super(xyz);
-        isZero();
+        isItZero();
     }
 
     /**
