@@ -30,6 +30,7 @@ public final class Main {
 		Vector v2 = new Vector(-2, -4, -6);
 		Vector v3 = new Vector(0, 3, -2);
 
+
 		// test length..
 		if (!isZero(v1.lengthSquared() - 14))
 			out.println("ERROR: lengthSquared() wrong value");

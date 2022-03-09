@@ -11,7 +11,7 @@ public class Plane implements Geometry {
         return p0;
     }
 
-    public Vector getNormal() {
+    public Vector getMYNormal() {
         return normal;
     }
 
@@ -22,7 +22,12 @@ public class Plane implements Geometry {
 
     public Plane(Point p1, Point p2, Point p3) {
         this.p0 = p1;
-        this.normal = null;
+
+          Vector v1 = p2.subtract(p1);
+          Vector v2 = p3.subtract(p1);
+          Vector dir = v1.crossProduct(v2);
+
+        this.normal = dir.normalize();
     }
 
     @Override
