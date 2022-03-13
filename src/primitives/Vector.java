@@ -1,58 +1,68 @@
 package primitives;
 
-public class Vector extends Point{
+/**
+ * Vector class represents three-dimensional vector int in 3D Cartesian coordinate
+ * system
+ * @author DW, AC
+ */
+public class Vector extends Point {
 
-    public void isItZero(){
-        if (xyz.equals((Double3.ZERO))){
-            throw new IllegalArgumentException("Invalid value cannot be zero!");
-        }
-    }
-
+    /**
+     * Method to print the class
+     */
     @Override
     public String toString() {
         return "->" + super.toString();
     }
 
-    public Vector(double x, double y, double z) {
-        super(x, y, z);
-        isItZero();
+    /**
+     * Method to check if our vector is equals to the parameter o
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (!(o instanceof Vector)) return false;
+        return xyz.equals(((Vector) o).xyz);
     }
 
-    public Vector(Double3 xyz) {
+    /**
+     * Set values for vector fields
+     */
+    public Vector(double x, double y, double z) {
+        this(new Double3(x, y, z));
+    }
+
+    Vector(Double3 xyz) {
         super(xyz);
-        isItZero();
+        if (xyz.equals((Double3.ZERO)))
+            throw new IllegalArgumentException("Invalid value cannot be zero!");
     }
 
     /**
      * Adds two vectors
-     * @param v: represents a vector
-     * @return a vector that is the addition between two vectors
+     * @param v represents a vector
+     * @return the result vector
      */
     public Vector add(Vector v) {
-        return new Vector(
-                xyz.d1 + v.xyz.d1,
-                xyz.d2 + v.xyz.d2,
-                xyz.d3 + v.xyz.d3);
+        return new Vector(this.xyz.add(v.xyz));
     }
 
     /**
      * Multiplies a vector by a number
-     * @param d: a scalar
+     * @param d a scalar
      * @return a vector that is multiplied by the scalar
      */
     public Vector scale(double d) {
-        return new Vector(
-                xyz.d1 * d,
-                xyz.d2 * d,
-                xyz.d3 * d);
+        return new Vector(this.xyz.scale(d));
     }
 
     /**
      * Calculates the dot product between two vectors
-     * @param v: represents a vector
+     * @param v represents a vector
      * @return the dot product between the vectors
      */
-    public double dotProduct(Vector v){
+    public double dotProduct(Vector v) {
         double product = 0;
         product += this.xyz.d1 * v.xyz.d1;
         product += this.xyz.d2 * v.xyz.d2;
@@ -62,34 +72,35 @@ public class Vector extends Point{
 
     /**
      * Calculates the cross product between two vectors
-     * @param v: represents a vector
+     * @param v represents a vector
      * @return the cross product between the vectors
      */
-    public Vector crossProduct(Vector v){
+    public Vector crossProduct(Vector v) {
         return new Vector(
-            this.xyz.d2 * v.xyz.d3 - this.xyz.d3 * v.xyz.d2,
-            this.xyz.d3 * v.xyz.d1 - this.xyz.d1 * v.xyz.d3,
-            this.xyz.d1 * v.xyz.d2 - this.xyz.d2 * v.xyz.d1);
+                this.xyz.d2 * v.xyz.d3 - this.xyz.d3 * v.xyz.d2,
+                this.xyz.d3 * v.xyz.d1 - this.xyz.d1 * v.xyz.d3,
+                this.xyz.d1 * v.xyz.d2 - this.xyz.d2 * v.xyz.d1);
     }
 
     /**
-     * @return the squared value of the vector’s length
+     * Calculates the squared value of the vector’s length
+     * @return the squared length
      */
     public double lengthSquared() {
-        return xyz.d1 * xyz.d1 +
-                xyz.d2 * xyz.d2 +
-                xyz.d3 * xyz.d3;
+        return dotProduct(this);
     }
 
     /**
-     * @return the length of the vector
+     * Calculates the length of the vector
+     * @return the length
      */
-    public double length(){
+    public double length() {
         return Math.sqrt(this.lengthSquared());
     }
 
     /**
-     * @return a new vector which is the original vector, normalized
+     * Calculates the normalized vector
+     * @return the normalized vector
      */
     public Vector normalize() {
         return this.scale(1 / this.length());

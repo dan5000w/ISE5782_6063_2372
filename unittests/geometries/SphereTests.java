@@ -18,7 +18,7 @@ class SphereTests {
      */
     @Test
     void getNormal() {
-        Sphere sphere = new Sphere(Point.ZERO, 1);
+        Sphere sphere = new Sphere(new Point(0,0,0), 1);
 
         // ============ Equivalence Partitions Tests ==============
         // T01: Test that the getNormal function on Sphere is calculated correctly

@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class CylinderTests {
 
-    Ray r = new Ray(Point.ZERO, new Vector(0,0,1));
+    Ray r = new Ray(new Point(0,0,0), new Vector(0,0,1));
     Cylinder cylinder = new Cylinder(r, 1, 1);
 
     /**
