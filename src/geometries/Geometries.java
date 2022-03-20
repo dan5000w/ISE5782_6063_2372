@@ -18,7 +18,7 @@ public class Geometries implements Intersectable {
      * Default constructor
      */
     public Geometries() {
-        intersectableList = new ArrayList<>();
+        intersectableList = new LinkedList<>();
     }
 
     /**
@@ -49,7 +49,7 @@ public class Geometries implements Intersectable {
             List<Point> itemIntersectionPoints = item.findIntersections(ray);
             if (itemIntersectionPoints != null) {
                 if (result == null) {
-                    result = new ArrayList<>();
+                    result = new LinkedList<>();
                 }
                 result.addAll(itemIntersectionPoints);
             }
