@@ -3,26 +3,43 @@ package primitives;
 /**
  * Point class represents three-dimensional point in 3D Cartesian coordinate
  * system
+ *
  * @author DW, AC
  */
 public class Point {
+    /**
+     * Coordinates of the point
+     */
+    protected final Double3 xyz;
 
-    protected Double3 xyz;
-
+    /**
+     * Constructor using coordinates
+     *
+     * @param xyz the coordinates of the point
+     */
     protected Point(Double3 xyz) {
         this.xyz = xyz;
     }
 
     /**
-     * Set values for point fields
+     * Constructor using 3D coordinates values
+     *
+     * @param x coordinate value
+     * @param y coordinate value
+     * @param z coordinate value
      */
     public Point(double x, double y, double z) {
         xyz = new Double3(x, y, z);
     }
 
     /**
-     * Method to check if our point is equals to the parameter o
+     * Gets the x coordinate of the point
+     * @return the coordinate
      */
+    public double getX() {
+        return xyz.d1;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -31,9 +48,6 @@ public class Point {
         return xyz.equals(((Point) o).xyz);
     }
 
-    /**
-     * Method to print the class
-     */
     @Override
     public String toString() {
         return xyz.toString();
@@ -41,7 +55,8 @@ public class Point {
 
     /**
      * Adds vector to a point
-     * @param v represents a vector
+     *
+     * @param v other vector
      * @return the point after adding the vector
      */
     public Point add(Vector v) {
@@ -50,17 +65,19 @@ public class Point {
 
     /**
      * vector subtraction
-     * @param p represents a Point
+     *
+     * @param p other Point
      * @return a vector between two of the points
      */
     public Vector subtract(Point p) {
-        return new Vector( this.xyz.subtract(p.xyz));
+        return new Vector(this.xyz.subtract(p.xyz));
     }
 
     /**
      * Calculates the distance between two points, squared
-     * @param p a point
-     * @return  the distance, squared
+     *
+     * @param p other point
+     * @return the distance, squared
      */
     public double distanceSquared(Point p) {
         double dx = p.xyz.d1 - this.xyz.d1;
@@ -71,10 +88,11 @@ public class Point {
 
     /**
      * Calculates the distance between two points
-     * @param p a point
+     *
+     * @param p other point
      * @return the distance
      */
-    public double distance(Point p){
+    public double distance(Point p) {
         return Math.sqrt(distanceSquared(p));
     }
 }
