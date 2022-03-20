@@ -24,17 +24,22 @@ class CylinderTests {
     void testGetNormal() {
         // ============ Equivalence Partitions Tests ==============
 
-        Point p1 = new Point(0,0.5,0);
         Vector option1 = (new Vector(0, 0, 1));
         Vector option2 = (new Vector(0, 0, -1));
 
         // T01: Test that the getNormal function on Cylinder works properly for points on side 1
+        Point p1 = new Point(0,0.5,0);
         assertTrue(cylinder.getNormal(p1).equals(option1) || cylinder.getNormal(p1).equals(option2),
                 "Cylinder getNormal function gives wrong normal.");
 
         // T02: Test that the getNormal function on Cylinder works properly for points on side 2
         Point p2 = new Point(0,0.5,1);
         assertTrue(cylinder.getNormal(p2).equals(option1) || cylinder.getNormal(p2).equals(option2),
+                "Cylinder getNormal function gives wrong normal.");
+        // T02: Test that the getNormal function on Cylinder works properly for points on side 2
+        Point p5 = new Point(0,1,0.5);
+        Vector p5Normal = new Vector(0,1,0);
+        assertEquals(cylinder.getNormal(p5), p5Normal,
                 "Cylinder getNormal function gives wrong normal.");
 
         // =============== Boundary Values Tests ==================

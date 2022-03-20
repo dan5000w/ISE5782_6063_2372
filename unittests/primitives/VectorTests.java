@@ -26,7 +26,6 @@ class VectorTests {
         assertThrows(
                 IllegalArgumentException.class, () -> new Vector(0, 0, 0),
                 "testConstructor() for zero-vector does not throw an exception");
-
     }
     /**
      * Test method for {@link Vector#Vector(Double3)}.
@@ -49,6 +48,11 @@ class VectorTests {
         // ============ Equivalence Partitions Tests ==============
         //T01: check the standard addition is calculated correctly
         assertEquals((v1.add(v2)), new Vector(1,5,1),"The standard addition does not work!");
+        // =============== Boundary Values Tests ==================
+        // T11: Test that the addition off opposites vectors throws exception
+        assertThrows(
+                IllegalArgumentException.class, () -> v1.add(v1.scale(-1)),
+                "subtract for point on same point does not throw an exception");
     }
 
     /**
@@ -70,13 +74,14 @@ class VectorTests {
      */
     @Test
     void dotProduct() {
-
         // ============ Equivalence Partitions Tests ==============
         // T01: Test that dot product return value is calculated correctly
         assertEquals(-28, v1.dotProduct(v3), 0.00001, "The dot product does not work!");
         // T02: test that orthogonal vectors return 0 on dot product
         assertTrue(isZero(v1.dotProduct(v2)), "The dot product of orthogonal vectors does not work!");
-
+        // T03: test that dot product works in different order and returns the negative value of the regular dot product
+        assertEquals(v2.dotProduct(v1), -1 * v1.dotProduct(v2), 0.00001,
+                "The dot product does not work!");
     }
 
     /**
@@ -133,11 +138,15 @@ class VectorTests {
     @Test
     void normalize() {
         // test vector normalization vs vector length and cross-product
-        Vector vNormal1 = v1.normalize();
-
+        Vector v4 = new Vector(0,0,4);
+        Vector vNormal1 = v4.normalize();
         // ============ Equivalence Partitions Tests ==============
         // T01: Test that normalize makes the vector length 1
         assertEquals(1, vNormal1.length(), 0.0001,
                 "normalize does not make the vector length 1");
+        // T02: Test that normalize vector and the original vector have the same direction
+        assertEquals(v4.scale(1 / 4F), vNormal1,
+                "normalize change the vector direction!");
+
     }
 }

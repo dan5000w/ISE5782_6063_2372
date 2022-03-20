@@ -3,6 +3,7 @@ package primitives;
 /**
  * Ray class represents three-dimensional ray in 3D Cartesian coordinate
  * system
+ *
  * @author DW, AC
  */
 public class Ray {
@@ -10,30 +11,43 @@ public class Ray {
     private final Vector dir;
 
     /**
-     * Set values for ray fields
+     * Constructor using point and vector
+     *
+     * @param p the starting point of the ray
+     * @param v the direction vector of the ray
      */
-    public Ray(Point p, Vector v){
+    public Ray(Point p, Vector v) {
         p0 = p;
         dir = v.normalize();
     }
 
     /**
-     * Get value of p0
+     * Gets the starting point of the ray
+     *
+     * @return the point
      */
     public Point getP0() {
         return p0;
     }
 
     /**
-     * Get value of dir
+     * Get value of direction vector
+     *
+     * @return the direction
      */
     public Vector getDir() {
         return dir;
     }
 
     /**
-     * Method to check if our ray is equals to the parameter o
+     * Calculates the point where starts at p0 and scaled by t.
+     * @param t The scalar to scale the direction with.
+     * @return The calculated point.
      */
+    public Point getPoint(double t) {
+        return p0.add(dir.scale(t));
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -42,9 +56,6 @@ public class Ray {
         return p0.equals(ray.p0) && dir.equals(ray.dir);
     }
 
-    /**
-     * Method to print the class
-     */
     @Override
     public String toString() {
         return "Ray: " +
