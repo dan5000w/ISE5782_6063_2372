@@ -3,36 +3,27 @@ package primitives;
 /**
  * Vector class represents three-dimensional vector int in 3D Cartesian coordinate
  * system
+ *
  * @author DW, AC
  */
 public class Vector extends Point {
 
     /**
-     * Method to print the class
-     */
-    @Override
-    public String toString() {
-        return "->" + super.toString();
-    }
-
-    /**
-     * Method to check if our vector is equals to the parameter o
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null) return false;
-        if (!(o instanceof Vector)) return false;
-        return xyz.equals(((Vector) o).xyz);
-    }
-
-    /**
-     * Set values for vector fields
+     * Constructor using 3D coordinates values
+     *
+     * @param x coordinate value
+     * @param y coordinate value
+     * @param z coordinate value
      */
     public Vector(double x, double y, double z) {
         this(new Double3(x, y, z));
     }
 
+    /**
+     * Constructor using coordinates
+     *
+     * @param xyz the coordinates of the vector
+     */
     Vector(Double3 xyz) {
         super(xyz);
         if (xyz.equals((Double3.ZERO)))
@@ -41,7 +32,8 @@ public class Vector extends Point {
 
     /**
      * Adds two vectors
-     * @param v represents a vector
+     *
+     * @param v other vector
      * @return the result vector
      */
     public Vector add(Vector v) {
@@ -50,6 +42,7 @@ public class Vector extends Point {
 
     /**
      * Multiplies a vector by a number
+     *
      * @param d a scalar
      * @return a vector that is multiplied by the scalar
      */
@@ -59,7 +52,8 @@ public class Vector extends Point {
 
     /**
      * Calculates the dot product between two vectors
-     * @param v represents a vector
+     *
+     * @param v other vector
      * @return the dot product between the vectors
      */
     public double dotProduct(Vector v) {
@@ -72,7 +66,8 @@ public class Vector extends Point {
 
     /**
      * Calculates the cross product between two vectors
-     * @param v represents a vector
+     *
+     * @param v other vector
      * @return the cross product between the vectors
      */
     public Vector crossProduct(Vector v) {
@@ -84,6 +79,7 @@ public class Vector extends Point {
 
     /**
      * Calculates the squared value of the vector’s length
+     *
      * @return the squared length
      */
     public double lengthSquared() {
@@ -92,6 +88,7 @@ public class Vector extends Point {
 
     /**
      * Calculates the length of the vector
+     *
      * @return the length
      */
     public double length() {
@@ -100,9 +97,23 @@ public class Vector extends Point {
 
     /**
      * Calculates the normalized vector
+     *
      * @return the normalized vector
      */
     public Vector normalize() {
         return this.scale(1 / this.length());
+    }
+
+    @Override
+    public String toString() {
+        return "->" + super.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null) return false;
+        if (!(o instanceof Vector)) return false;
+        return xyz.equals(((Vector) o).xyz);
     }
 }
