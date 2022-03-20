@@ -12,13 +12,13 @@ import java.util.*;
  */
 public class Geometries implements Intersectable {
 
-    private List<Intersectable> intersectableList;
+    private final List<Intersectable> intersectableList;
 
     /**
      * Default constructor
      */
     public Geometries() {
-        intersectableList = new LinkedList<>();
+        intersectableList = new ArrayList<>();
     }
 
     /**
@@ -49,7 +49,7 @@ public class Geometries implements Intersectable {
             List<Point> itemIntersectionPoints = item.findIntersections(ray);
             if (itemIntersectionPoints != null) {
                 if (result == null) {
-                    result = new LinkedList<>();
+                    result = new ArrayList<>();
                 }
                 result.addAll(itemIntersectionPoints);
             }
