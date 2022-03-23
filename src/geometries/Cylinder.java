@@ -10,7 +10,7 @@ import static primitives.Util.isZero;
  * Cylinder class represents three-dimensional Cylinder in 3D Cartesian coordinate
  * system
  *
- * @author DW, AC
+ * @author Daniel Wolpert, Amitay Cahalon
  */
 public class Cylinder extends Tube {
 
@@ -47,17 +47,18 @@ public class Cylinder extends Tube {
         return height;
     }
 
-    /**
-     * {@link Geometry#getNormal(Point)} }
-     */
     @Override
     public Vector getNormal(Point p) {
-        Point o1 = axisRay.getP0(); // middle of first end
-        Point o2 = o1.add(axisRay.getDir().scale(height)); // middle of second end
-        if (isZero(p.subtract(o1).dotProduct(axisRay.getDir())) || isZero(p.subtract(o2).dotProduct(axisRay.getDir()))) {
-            Point a = p.add(axisRay.getDir());
-            return p.subtract(a).normalize();
+        // we assume point is on the cylinder, so we check if it is on top, bottom or side.
+        Vector rayDir = axisRay.getDir();
+        Point centerBottom = axisRay.getP0();
+        Point centerTop = axisRay.getPoint(height);
+        if(p.equals(centerTop) || isZero(p.subtract(centerTop).dotProduct(rayDir))) { // on the top
+            return rayDir;
+        } else if (p.equals(centerBottom) || isZero(p.subtract(centerBottom).dotProduct(rayDir))) { //on the bottom
+            return rayDir.scale(-1);
+        } else { // on the side
+            return super.getNormal(p);
         }
-        return super.getNormal(p);
     }
 }

@@ -1,21 +1,19 @@
 package geometries;
 
-import primitives.Point;
-import primitives.Ray;
-
+import primitives.*;
 import java.util.List;
 
 /**
- * basic interface for intersectable geometries.
+ * Basic interface for intersectable geometries.
  *
- * @author DW, AC
+ * @author Daniel Wolpert, Amitay Cahalon
  */
 public interface Intersectable {
     /**
-     * Finds all intersection points
+     * Finds all intersection points between the geometry and a ray
      *
-     * @param ray the ray
-     * @return all intersection points with the ray
+     * @param ray the ray to intersect with
+     * @return list of all the intersection points
      */
     List<Point> findIntersections(Ray ray);
 }

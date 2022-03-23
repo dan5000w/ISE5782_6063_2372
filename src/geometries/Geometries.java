@@ -8,17 +8,15 @@ import java.util.*;
 /**
  * Geometries class stores the group of geometrical shapes (or the group of groups of geometries).
  *
- * @author DW, AC
+ * @author Daniel Wolpert, Amitay Cahalon
  */
 public class Geometries implements Intersectable {
-
-    private final List<Intersectable> intersectableList;
+    private final List<Intersectable> intersectableList = new LinkedList<>();
 
     /**
      * Default constructor
      */
     public Geometries() {
-        intersectableList = new ArrayList<>();
     }
 
     /**
@@ -27,7 +25,6 @@ public class Geometries implements Intersectable {
      * @param geometries a group of geometrical shapes
      */
     public Geometries(Intersectable... geometries) {
-        intersectableList = new ArrayList<>();
         add(geometries);
     }
 
@@ -38,7 +35,6 @@ public class Geometries implements Intersectable {
      */
     public void add(Intersectable... geometries) {
         intersectableList.addAll(Arrays.asList(geometries));
-
     }
 
     @Override
@@ -48,9 +44,8 @@ public class Geometries implements Intersectable {
         for (Intersectable item : intersectableList) {
             List<Point> itemIntersectionPoints = item.findIntersections(ray);
             if (itemIntersectionPoints != null) {
-                if (result == null) {
-                    result = new ArrayList<>();
-                }
+                if (result == null)
+                    result = new LinkedList<>();
                 result.addAll(itemIntersectionPoints);
             }
         }

@@ -21,8 +21,6 @@ class TriangleTests {
      */
     @Test
     void testGetNormal() {
-
-
         Point p1 = new Point(0, 1, 0);
         Triangle triangle = new Triangle(p1, new Point(1, 0, 0), new Point(0, 0, 1));
 
@@ -51,9 +49,11 @@ class TriangleTests {
                 new Vector(0, 0, -1)));
         assertEquals(1, result1.size(), "Wrong number of points");
         assertEquals(List.of(p1), result1, "Ray crosses triangle");
+
         // T02: the point is outside against edge
         assertNull(triangle.findIntersections(new Ray(new Point(2, 3, 5), new Vector(0, 0, -1))),
                 "Ray's line out of plane");
+
         // T03: the point is outside against vertex
         assertNull(triangle.findIntersections(new Ray(new Point(-1, -0.5, 2), new Vector(0, 0, -1))),
                 "Ray's line out of plane");
@@ -62,11 +62,14 @@ class TriangleTests {
         // T11: the point is on edge
         assertNull(triangle.findIntersections(new Ray(new Point(0, 3, 2), new Vector(0, 0, -1))),
                 "Ray's line out of plane");
+
         // T12: the point is in vertex
         assertNull(triangle.findIntersections(new Ray(new Point(3, 0, 2), new Vector(0, 0, -1))),
                 "Ray's line out of plane");
+
         // T13: the point is on edge's continuation
-        assertNull(triangle.findIntersections(new Ray(new Point(3, 0, 2), new Vector(0, 0, -1))),
+        assertNull(triangle.findIntersections(new Ray(new Point(5, -1, 2), new Vector(0, 0, -1))),
                 "Ray's line out of plane");
+
     }
 }

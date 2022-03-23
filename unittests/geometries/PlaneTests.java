@@ -73,14 +73,16 @@ class PlaneTests {
      */
     @Test
     public void testFindIntersections() {
-        Plane plane = new Plane(new Point(1,0,0), new Vector(0,0,1));
+        Plane plane = new Plane(new Point(1, 0, 0), new Vector(0, 0, 1));
         // ============ Equivalence Partitions Tests ==============
+
         // T01: Ray intersects the plane
         Point p1 = new Point(1, 0, 0);
         List<Point> result1 = plane.findIntersections(new Ray(new Point(0, 0, 1),
                 new Vector(1, 0, -1)));
         assertEquals(1, result1.size(), "Wrong number of points");
         assertEquals(List.of(p1), result1, "Ray crosses plane");
+
         // T02: Ray does not intersect the plane
         assertNull(plane.findIntersections(new Ray(new Point(1, 1, -5), new Vector(0, 1, 0))),
                 "Ray's line out of plane");
@@ -89,26 +91,31 @@ class PlaneTests {
         // T11: Ray is parallel to the plane (not included)
         assertNull(plane.findIntersections(new Ray(new Point(1, 1, -5), new Vector(2, 1, 0))),
                 "Ray's line out of plane");
+
         // T12:  Ray is parallel to the plane (included)
         assertNull(plane.findIntersections(new Ray(new Point(1, 1, 0), new Vector(2, 1, 0))),
                 "Ray's line out of plane");
+
         // T13: Ray is orthogonal to the plane (before the plane)
         Point p2 = new Point(1, 1, 0);
         List<Point> result2 = plane.findIntersections(new Ray(new Point(1, 1, 1),
                 new Vector(0, 0, -1)));
         assertEquals(1, result2.size(), "Wrong number of points");
         assertEquals(List.of(p2), result2, "Ray crosses plane");
+
         // T14: Ray is orthogonal to the plane (after the plane)
-        assertNull(plane.findIntersections(new Ray(new Point(1, 1, -5), new Vector(1, 0, 0))),
+        assertNull(plane.findIntersections(new Ray(new Point(1, 1, -5), new Vector(0, 0, -1))),
                 "Ray's line out of plane");
-        // T14: Ray is orthogonal to the plane (in the plane)
+
+        // T15: Ray is orthogonal to the plane (in the plane)
         assertNull(plane.findIntersections(new Ray(new Point(1, 0, 0), new Vector(0, 0, -1))),
                 "Ray's line out of plane");
-        // T15: Ray is neither orthogonal nor parallel to and begins at the plane (𝑃0 is in the plane, but not the ray)
-        // T14: Ray is orthogonal to the plane (after the plane)
+
+        // T16: Ray is neither orthogonal nor parallel to and begins at the plane (𝑃0 is in the plane, but not the ray)
         assertNull(plane.findIntersections(new Ray(new Point(1, 1, 0), new Vector(0, 1, -1))),
                 "Ray's line out of plane");
-        // T16: Ray is neither orthogonal nor parallel to the plane and begins in the same point which appears as reference point in the plane (Q)
+
+        // T17: Ray is neither orthogonal nor parallel to the plane and begins in the same point which appears as reference point in the plane (Q)
         assertNull(plane.findIntersections(new Ray(new Point(1, 0, 0), new Vector(0, 1, -1))),
                 "Ray's line out of plane");
     }

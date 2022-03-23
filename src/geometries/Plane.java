@@ -4,7 +4,6 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import static primitives.Util.alignZero;
@@ -14,7 +13,7 @@ import static primitives.Util.isZero;
  * Plane class represents three-dimensional Plane in 3D Cartesian coordinate
  * system
  *
- * @author DW, AC
+ * @author Daniel Wolpert, Amitay Cahalon
  */
 public class Plane implements Geometry {
     private final Point p0;
@@ -67,7 +66,6 @@ public class Plane implements Geometry {
         return normal;
     }
 
-
     @Override
     public String toString() {
         return "Plane{" +
@@ -76,9 +74,6 @@ public class Plane implements Geometry {
                 '}';
     }
 
-    /**
-     * {@link Geometry#getNormal(Point)} }
-     */
     @Override
     public Vector getNormal(Point p) {
         return normal;
@@ -88,22 +83,21 @@ public class Plane implements Geometry {
     public List<Point> findIntersections(Ray ray) {
         Vector rayDir = ray.getDir();
         Point rayP0 = ray.getP0();
+
+        Vector u;
+        try {
+            u = p0.subtract(rayP0);
+        } catch (IllegalArgumentException ignore) {
+            return null;
+        }
+
+        double denominator = rayDir.dotProduct(normal);
         // if they are parallel
-        if (isZero(rayDir.dotProduct(normal)))
+        if (isZero(denominator))
             return null;
 
         //t = n * (Q - Po) / n * v: t>0
-        try {
-            double t = alignZero(normal.dotProduct(p0.subtract(rayP0)) / normal.dotProduct(rayDir));
-            if (t <= 0)
-                return null;
-            //p = P0 + t*v
-            Point point = rayP0.add(rayDir.scale(t));
-            List<Point> pointList = new LinkedList<>();
-            pointList.add(point);
-            return pointList;
-        } catch (IllegalArgumentException e) {
-            return null;
-        }
+        double t = alignZero(normal.dotProduct(u) / denominator);
+        return t <= 0 ? null : List.of(ray.getPoint(t));
     }
 }

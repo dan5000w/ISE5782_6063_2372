@@ -2,10 +2,12 @@ package primitives;
 
 import static primitives.Util.isZero;
 import static org.junit.jupiter.api.Assertions.*;
+
 import org.junit.jupiter.api.Test;
 
 /**
  * Unit tests for primitives.Vector class
+ *
  * @author Amitay Cahalon && Daniel Wolpert
  */
 class VectorTests {
@@ -27,6 +29,7 @@ class VectorTests {
                 IllegalArgumentException.class, () -> new Vector(0, 0, 0),
                 "testConstructor() for zero-vector does not throw an exception");
     }
+
     /**
      * Test method for {@link Vector#Vector(Double3)}.
      */
@@ -47,7 +50,8 @@ class VectorTests {
     void add() {
         // ============ Equivalence Partitions Tests ==============
         //T01: check the standard addition is calculated correctly
-        assertEquals((v1.add(v2)), new Vector(1,5,1),"The standard addition does not work!");
+        assertEquals((v1.add(v2)), new Vector(1, 5, 1), "The standard addition does not work!");
+
         // =============== Boundary Values Tests ==================
         // T11: Test that the addition off opposites vectors throws exception
         assertThrows(
@@ -62,11 +66,11 @@ class VectorTests {
     void scale() {
         // ============ Equivalence Partitions Tests ==============
         //T11: check that the new vector has a scaled length
-        assertEquals((v1.add(v2)), new Vector(1,5,1),"The scale does not work!");
+        assertEquals((v1.add(v2)), new Vector(1, 5, 1), "The scale does not work!");
 
         // =============== Boundary Values Tests ==================
         //T12: check the addition with zero is calculated correctly
-        assertThrows(IllegalArgumentException.class,() -> v1.scale(0), "The scale by zero does not work!");
+        assertThrows(IllegalArgumentException.class, () -> v1.scale(0), "The scale by zero does not work!");
     }
 
     /**
@@ -77,8 +81,10 @@ class VectorTests {
         // ============ Equivalence Partitions Tests ==============
         // T01: Test that dot product return value is calculated correctly
         assertEquals(-28, v1.dotProduct(v3), 0.00001, "The dot product does not work!");
+
         // T02: test that orthogonal vectors return 0 on dot product
         assertTrue(isZero(v1.dotProduct(v2)), "The dot product of orthogonal vectors does not work!");
+
         // T03: test that dot product works in different order and returns the negative value of the regular dot product
         assertEquals(v2.dotProduct(v1), -1 * v1.dotProduct(v2), 0.00001,
                 "The dot product does not work!");
@@ -93,15 +99,14 @@ class VectorTests {
         // ============ Equivalence Partitions Tests ==============
         Vector crossProductResult = v1.crossProduct(v2);
 
-        // T01: Test that length of cross-product is proper (orthogonal vectors taken
-        // for simplicity)
-        assertEquals( v1.length() * v2.length(), crossProductResult.length(), 0.00001,
+        // T01: Test that length of cross-product is proper (orthogonal vectors taken for simplicity)
+        assertEquals(v1.length() * v2.length(), crossProductResult.length(), 0.00001,
                 "crossProduct function returned wrong result length");
 
         // T02: Test cross-product result orthogonality to its operands
-        assertTrue( isZero(crossProductResult.dotProduct(v1)),
+        assertTrue(isZero(crossProductResult.dotProduct(v1)),
                 "crossProduct function result is not orthogonal to 1st operand");
-        assertTrue( isZero(crossProductResult.dotProduct(v2)),
+        assertTrue(isZero(crossProductResult.dotProduct(v2)),
                 "crossProduct function result is not orthogonal to 2nd operand");
 
         // =============== Boundary Values Tests ==================
@@ -118,7 +123,7 @@ class VectorTests {
     void lengthSquared() {
         // ============ Equivalence Partitions Tests ==============
         // T01: Test that lengthSquared function is calculated correctly
-        assertEquals (14, v1.lengthSquared(), 0.00001, "lengthSquared function gave wrong value");
+        assertEquals(14, v1.lengthSquared(), 0.00001, "lengthSquared function gave wrong value");
 
     }
 
@@ -129,7 +134,7 @@ class VectorTests {
     void length() {
         // ============ Equivalence Partitions Tests ==============
         // T01: Test that length value is calculated correctly
-        assertEquals (Math.sqrt(14), v1.length(), 0.00001, "length function gave wrong value");
+        assertEquals(Math.sqrt(14), v1.length(), 0.00001, "length function gave wrong value");
     }
 
     /**
@@ -137,16 +142,16 @@ class VectorTests {
      */
     @Test
     void normalize() {
-        // test vector normalization vs vector length and cross-product
-        Vector v4 = new Vector(0,0,4);
+
+        Vector v4 = new Vector(0, 0, 4);
         Vector vNormal1 = v4.normalize();
         // ============ Equivalence Partitions Tests ==============
         // T01: Test that normalize makes the vector length 1
         assertEquals(1, vNormal1.length(), 0.0001,
                 "normalize does not make the vector length 1");
-        // T02: Test that normalize vector and the original vector have the same direction
-        assertEquals(v4.scale(1 / 4F), vNormal1,
-                "normalize change the vector direction!");
 
+        // T02: Test that normalize vector and the original vector have the same direction
+        assertEquals(v4.scale(1.0 / 4), vNormal1,
+                "normalize change the vector direction!");
     }
 }

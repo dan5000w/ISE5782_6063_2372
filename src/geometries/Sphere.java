@@ -13,12 +13,13 @@ import static primitives.Util.alignZero;
  * Sphere class represents three-dimensional Sphere in 3D Cartesian coordinate
  * system
  *
- * @author DW, AC
+ * @author Daniel Wolpert, Amitay Cahalon
  */
 public class Sphere implements Geometry {
 
     private final Point center;
     private final double radius;
+    private final double radius2;
 
 
     /**
@@ -30,6 +31,7 @@ public class Sphere implements Geometry {
     public Sphere(Point center, double radius) {
         this.center = center;
         this.radius = radius;
+        this.radius2 = radius * radius;
     }
 
     /**
@@ -59,9 +61,6 @@ public class Sphere implements Geometry {
                 '}';
     }
 
-    /**
-     * {@link Geometry#getNormal(Point)} }
-     */
     @Override
     public Vector getNormal(Point p) {
         return p.subtract(center).normalize();
@@ -70,33 +69,22 @@ public class Sphere implements Geometry {
     @Override
     public List<Point> findIntersections(Ray ray) {
         Point p0 = ray.getP0();
-        Vector V = ray.getDir();
-        if (p0.equals(center)) { //if the ray start is in the center of the sphere
+        Vector v = ray.getDir();
+        if (p0.equals(center)) //if the ray start is in the center of the sphere
             return List.of(ray.getPoint(radius));
-        }
-        Vector U = center.subtract(p0);
-        double tm = V.dotProduct(U);
-        double d = Math.sqrt((U.lengthSquared() - tm * tm));
-        if (d >= radius) { //there is no intersections
+
+        Vector u = center.subtract(p0);
+        double tm = v.dotProduct(u);
+        double d2 = u.lengthSquared() - tm * tm;
+        double th2 = alignZero(radius2 - d2);
+
+        if (th2 <= 0) //there is no intersections
             return null;
-        }
-        double th = Math.sqrt(radius * radius - d * d);
-        double t1 = alignZero(tm - th);
+        double th = Math.sqrt(th2);
+
         double t2 = alignZero(tm + th);
-        //if t1 or t2 is negative, the intersection is before the ray start
-        if (t1 > 0 && t2 > 0) {
-            Point p1 = ray.getPoint(t1);
-            Point p2 = ray.getPoint(t2);
-            return List.of(p1, p2);
-        }
-        if (t1 > 0) {
-            Point p1 = ray.getPoint(t1);
-            return List.of(p1);
-        }
-        if (t2 > 0) {
-            Point p2 = ray.getPoint(t2);
-            return List.of(p2);
-        }
-        return null;
+        if (t2 <= 0) return null; // both are behind the ray
+        double t1 = alignZero(tm - th);
+        return t1 <= 0 ? List.of(ray.getPoint(t2)) : List.of(ray.getPoint(t1), ray.getPoint(t2));
     }
 }

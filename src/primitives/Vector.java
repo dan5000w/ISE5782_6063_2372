@@ -4,7 +4,7 @@ package primitives;
  * Vector class represents three-dimensional vector int in 3D Cartesian coordinate
  * system
  *
- * @author DW, AC
+ * @author Daniel Wolpert, Amitay Cahalon
  */
 public class Vector extends Point {
 

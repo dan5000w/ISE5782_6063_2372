@@ -1,10 +1,12 @@
 package primitives;
 
+import static primitives.Util.isZero;
+
 /**
  * Ray class represents three-dimensional ray in 3D Cartesian coordinate
  * system
  *
- * @author DW, AC
+ * @author Daniel Wolpert, Amitay Cahalon
  */
 public class Ray {
     private final Point p0;
@@ -41,10 +43,12 @@ public class Ray {
 
     /**
      * Calculates the point where starts at p0 and scaled by t.
+     *
      * @param t The scalar to scale the direction with.
      * @return The calculated point.
      */
     public Point getPoint(double t) {
+        if (isZero(t)) return p0;
         return p0.add(dir.scale(t));
     }
 

@@ -2,6 +2,7 @@ package geometries;
 
 import primitives.Point;
 import primitives.Ray;
+import primitives.Util;
 import primitives.Vector;
 
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
  * Triangle class represents three-dimensional Triangle in 3D Cartesian coordinate
  * system
  *
- * @author DW, AC
+ * @author Daniel Wolpert, Amitay Cahalon
  */
 public class Triangle extends Polygon {
 
@@ -27,39 +28,36 @@ public class Triangle extends Polygon {
 
     @Override
     public List<Point> findIntersections(Ray ray) {
+        // First check the intersections with the plane
+        Point point0 = vertices.get(0);
+        Point point1 = vertices.get(1);
+        Point point2 = vertices.get(2);
+
+        Vector normal = (point0.subtract(point1).crossProduct(point1.subtract(point2))).normalize();
+        Plane plane = new Plane(point0, normal);
         List<Point> pointList = plane.findIntersections(ray);
-        if (pointList != null) {
-            Point v0 = vertices.get(0);
-            Point v1 = vertices.get(1);
-            Point v2 = vertices.get(2);
-            Point P = pointList.get(0);
-            Vector N = plane.getNormal();
-            // inside-outside test
-            Vector C; // vector perpendicular to triangle's plane
+        if (pointList == null)
+            return null;
 
-            try {
-                // edge 0
-                Vector edge0 = v1.subtract(v0);
-                Vector vp0 = P.subtract(v0);
-                C = edge0.crossProduct(vp0);
-                if (N.dotProduct(C) < 0) return null; // P is on the right side
+        Point rayP0 = ray.getP0();
+        Vector rayDir = ray.getDir();
+        // After check if they're in the triangle
+        Vector v1 = (rayP0.subtract(point0));
+        Vector v2 = (rayP0.subtract(point1));
+        Vector v3 = (rayP0.subtract(point2));
+        Vector n1 = (v1.crossProduct(v2)).normalize();
+        Vector n2 = (v2.crossProduct(v3)).normalize();
+        Vector n3 = (v3.crossProduct(v1)).normalize();
 
-                // edge 1
-                Vector edge1 = v2.subtract(v1);
-                Vector vp1 = P.subtract(v1);
-                C = edge1.crossProduct(vp1);
-                if ((N.dotProduct(C)) < 0) return null; // P is on the right side
+        double vn1 = Util.alignZero(rayDir.dotProduct(n1));
+        double vn2 = Util.alignZero(rayDir.dotProduct(n2));
+        double vn3 = Util.alignZero(rayDir.dotProduct(n3));
+        if (vn1 == 0 || vn2 == 0 || vn3 == 0)
+            return null;
 
-                // edge 2
-                Vector edge2 = v0.subtract(v2);
-                Vector vp2 = P.subtract(v2);
-                C = edge2.crossProduct(vp2);
-                if ((N.dotProduct(C)) < 0) return null; // P is on the right side;
-            } catch (IllegalArgumentException e) {
-                return null;
-            }
-
+        if ((vn1 > 0 && vn2 > 0 && vn3 > 0) || (vn1 < 0 && vn2 < 0 && vn3 < 0)) {
+            return pointList;
         }
-        return pointList;
+        return null;
     }
 }

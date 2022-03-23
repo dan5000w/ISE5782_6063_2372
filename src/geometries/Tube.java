@@ -1,16 +1,13 @@
 package geometries;
 
-import primitives.Point;
-import primitives.Ray;
-import primitives.Vector;
-
+import primitives.*;
 import java.util.List;
 
 /**
  * Tube class represents three-dimensional tube in 3D Cartesian coordinate
  * system
  *
- * @author DW, AC
+ * @author Daniel Wolpert, Amitay Cahalon
  */
 public class Tube implements Geometry {
     /**
@@ -52,7 +49,6 @@ public class Tube implements Geometry {
         return radius;
     }
 
-
     @Override
     public String toString() {
         return "Sphere{" +
@@ -61,23 +57,9 @@ public class Tube implements Geometry {
                 '}';
     }
 
-    /**
-     * {@link Geometry#getNormal(Point)} }
-     */
     @Override
     public Vector getNormal(Point p) {
-        Point center;
-        Vector dir = axisRay.getDir();
-        Point p0 = axisRay.getP0();
-        //if point is the starting point of the ray
-        try {
-            //t = v * (p - p0)
-            double t = dir.dotProduct(p.subtract(p0));
-            //center = p0 + t * v
-            center = p0.add(dir.scale(t));
-        } catch (Exception IllegalArgumentException) {
-            center = p0;
-        }
+        Point center = axisRay.getPoint(axisRay.getDir().dotProduct(p.subtract(axisRay.getP0())));
         return (p.subtract(center)).normalize();
     }
 

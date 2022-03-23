@@ -6,7 +6,7 @@ import primitives.Vector;
 /**
  * Geometry interface represents three-dimensional objects system
  *
- * @author DW, AC
+ * @author Daniel Wolpert, Amitay Cahalon
  */
 public interface Geometry extends Intersectable {
     /**
