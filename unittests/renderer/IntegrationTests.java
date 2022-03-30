@@ -3,8 +3,9 @@ package renderer;
 import primitives.*;
 import geometries.*;
 import org.junit.jupiter.api.Test;
+import primitives.Vector;
 
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -13,9 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 public class IntegrationTests {
 
-    static final Point ZERO_POINT = new Point(0, 0, 0);
-    static final Camera camera = new Camera(ZERO_POINT, new Vector(0, -1, 0),
-            new Vector(0, 0, 1)).setVPDistance(1).setVPSize(3, 3);
+    final Camera camera = new Camera( //
+            Point.ZERO, //
+            new Vector(0, -1, 0), //
+            new Vector(0, 0, 1)) //
+            .setVPDistance(1) //
+            .setVPSize(3, 3);
     int numOfIntersectionPoints = 0;
 
     @Test
@@ -88,7 +92,7 @@ public class IntegrationTests {
         int sum = 0, vpXSize = 3, vpYSize = 3;
         for (int i = 0; i < vpXSize; ++i) {
             for (int j = 0; j < vpYSize; ++j) {
-                List<Point> pointList = intersectable.findIntersections(IntegrationTests.camera.constructRay(vpXSize, vpYSize, j, i));
+                List<Point> pointList = intersectable.findIntersections(camera.constructRay(vpXSize, vpYSize, j, i));
                 if (pointList != null)
                     sum += pointList.size();
             }

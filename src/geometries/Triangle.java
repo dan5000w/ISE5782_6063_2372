@@ -5,7 +5,9 @@ import primitives.Ray;
 import primitives.Util;
 import primitives.Vector;
 
-import java.util.List;
+import java.util.*;
+
+import static primitives.Util.*;
 
 /**
  * Triangle class represents three-dimensional Triangle in 3D Cartesian coordinate
@@ -44,20 +46,16 @@ public class Triangle extends Polygon {
         // After check if they're in the triangle
         Vector v1 = (rayP0.subtract(point0));
         Vector v2 = (rayP0.subtract(point1));
+        double vn1 = alignZero(rayDir.dotProduct((v1.crossProduct(v2)).normalize()));
+        if (vn1 == 0) return null;
+
         Vector v3 = (rayP0.subtract(point2));
-        Vector n1 = (v1.crossProduct(v2)).normalize();
-        Vector n2 = (v2.crossProduct(v3)).normalize();
-        Vector n3 = (v3.crossProduct(v1)).normalize();
+        double vn2 = alignZero(rayDir.dotProduct((v2.crossProduct(v3)).normalize()));
+        if (vn1 * vn2 <= 0) return null;
 
-        double vn1 = Util.alignZero(rayDir.dotProduct(n1));
-        double vn2 = Util.alignZero(rayDir.dotProduct(n2));
-        double vn3 = Util.alignZero(rayDir.dotProduct(n3));
-        if (vn1 == 0 || vn2 == 0 || vn3 == 0)
-            return null;
+        double vn3 = alignZero(rayDir.dotProduct((v3.crossProduct(v1)).normalize()));
+        if (vn1 * vn3 <= 0) return null;
 
-        if ((vn1 > 0 && vn2 > 0 && vn3 > 0) || (vn1 < 0 && vn2 < 0 && vn3 < 0)) {
-            return pointList;
-        }
-        return null;
+        return pointList;
     }
 }

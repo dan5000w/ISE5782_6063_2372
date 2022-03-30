@@ -1,6 +1,6 @@
 package primitives;
 
-import static primitives.Util.isZero;
+import static primitives.Util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;

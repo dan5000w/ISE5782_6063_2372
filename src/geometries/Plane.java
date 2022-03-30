@@ -4,10 +4,10 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import java.util.List;
+import java.util.*;
 
-import static primitives.Util.alignZero;
-import static primitives.Util.isZero;
+import static primitives.Util.*;
+
 
 /**
  * Plane class represents three-dimensional Plane in 3D Cartesian coordinate

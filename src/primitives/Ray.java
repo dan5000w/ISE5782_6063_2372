@@ -1,6 +1,8 @@
 package primitives;
 
-import static primitives.Util.isZero;
+import java.util.List;
+
+import static primitives.Util.*;
 
 /**
  * Ray class represents three-dimensional ray in 3D Cartesian coordinate
@@ -50,6 +52,26 @@ public class Ray {
     public Point getPoint(double t) {
         if (isZero(t)) return p0;
         return p0.add(dir.scale(t));
+    }
+
+    /**
+     * Finds the point closest to the beginning of the ray
+     * @param pointList a list of points
+     * @return the point
+     */
+    public Point findClosestPoint(List<Point> pointList) {
+        if (pointList == null) return null;
+        double shortestDistance = Double.POSITIVE_INFINITY;
+        Point closestDistancePoint = null;
+        for (Point point:pointList
+             ) {
+            double distanceFromPoint = this.p0.distance(point);
+            if (shortestDistance > distanceFromPoint){
+                shortestDistance = distanceFromPoint;
+                closestDistancePoint = point;
+            }
+        }
+        return closestDistancePoint;
     }
 
     @Override

@@ -13,6 +13,11 @@ public class Point {
     protected final Double3 xyz;
 
     /**
+     * Point of the center of our Cartesian coordinate system
+     */
+    public static final Point ZERO = new Point(Double3.ZERO);
+
+    /**
      * Constructor using coordinates
      *
      * @param xyz the coordinates of the point

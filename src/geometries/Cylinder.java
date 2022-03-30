@@ -4,7 +4,7 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
-import static primitives.Util.isZero;
+import static primitives.Util.*;
 
 /**
  * Cylinder class represents three-dimensional Cylinder in 3D Cartesian coordinate

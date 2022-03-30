@@ -1,11 +1,12 @@
 package geometries;
 
 import primitives.*;
-import java.util.List;
+import primitives.Vector;
+
+import java.util.*;
 
 /**
- * Tube class represents three-dimensional tube in 3D Cartesian coordinate
- * system
+ * Tube class represents three-dimensional tube in 3D Cartesian coordinate system
  *
  * @author Daniel Wolpert, Amitay Cahalon
  */
@@ -56,7 +57,6 @@ public class Tube implements Geometry {
                 ", radius=" + radius +
                 '}';
     }
-
     @Override
     public Vector getNormal(Point p) {
         Point center = axisRay.getPoint(axisRay.getDir().dotProduct(p.subtract(axisRay.getP0())));

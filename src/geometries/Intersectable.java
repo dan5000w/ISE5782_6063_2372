@@ -1,7 +1,7 @@
 package geometries;
 
 import primitives.*;
-import java.util.List;
+import java.util.*;
 
 /**
  * Basic interface for intersectable geometries.
