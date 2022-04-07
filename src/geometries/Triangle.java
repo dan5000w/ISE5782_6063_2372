@@ -28,8 +28,10 @@ public class Triangle extends Polygon {
         super(p1, p2, p3);
     }
 
+
+
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         // First check the intersections with the plane
         Point point0 = vertices.get(0);
         Point point1 = vertices.get(1);
@@ -56,6 +58,6 @@ public class Triangle extends Polygon {
         double vn3 = alignZero(rayDir.dotProduct((v3.crossProduct(v1)).normalize()));
         if (vn1 * vn3 <= 0) return null;
 
-        return pointList;
+        return List.of(new GeoPoint(this,pointList.get(0)));
     }
 }

@@ -39,6 +39,7 @@ public class Point {
 
     /**
      * Gets the x coordinate of the point
+     *
      * @return the coordinate
      */
     public double getX() {
@@ -47,6 +48,7 @@ public class Point {
 
     /**
      * Gets the y coordinate of the point
+     *
      * @return the coordinate
      */
     public double getY() {
@@ -55,6 +57,7 @@ public class Point {
 
     /**
      * Gets the z coordinate of the point
+     *
      * @return the coordinate
      */
     public double getZ() {

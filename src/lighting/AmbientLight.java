@@ -1,4 +1,4 @@
-package elements;
+package lighting;
 
 import primitives.Color;
 import primitives.Double3;
@@ -8,14 +8,14 @@ import primitives.Double3;
  *
  * @author Daniel Wolpert, Amitay Cahalon
  */
-public class AmbientLight {
-    private Color intensity;
+public class AmbientLight extends Light {
+    //private Color intensity;
 
     /**
      * Default Constructor, sets color intensity to black
      */
     public AmbientLight() {
-        intensity = Color.BLACK;
+        super(Color.BLACK);
     }
 
     /**
@@ -26,15 +26,6 @@ public class AmbientLight {
      * @param kA absorption coefficient of the light
      */
     public AmbientLight(Color iA, Double3 kA) {
-        this.intensity = iA.scale(kA);
-    }
-
-    /**
-     * Gets value of the color intensity
-     *
-     * @return the color
-     */
-    public Color getIntensity() {
-        return this.intensity;
+        super(iA.scale(kA));
     }
 }

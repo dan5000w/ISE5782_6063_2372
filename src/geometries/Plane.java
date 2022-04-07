@@ -15,7 +15,7 @@ import static primitives.Util.*;
  *
  * @author Daniel Wolpert, Amitay Cahalon
  */
-public class Plane implements Geometry {
+public class Plane extends Geometry {
     private final Point p0;
     private final Vector normal;
 
@@ -80,7 +80,9 @@ public class Plane implements Geometry {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
+
+
         Vector rayDir = ray.getDir();
         Point rayP0 = ray.getP0();
 
@@ -98,6 +100,8 @@ public class Plane implements Geometry {
 
         //t = n * (Q - Po) / n * v: t>0
         double t = alignZero(normal.dotProduct(u) / denominator);
-        return t <= 0 ? null : List.of(ray.getPoint(t));
+        return t <= 0 ? null : List.of(new GeoPoint(this, ray.getPoint(t)));
     }
+
+
 }

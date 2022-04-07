@@ -10,7 +10,7 @@ import java.util.*;
  *
  * @author Daniel Wolpert, Amitay Cahalon
  */
-public class Tube implements Geometry {
+public class Tube extends Geometry {
     /**
      * the ray of the tube
      */
@@ -57,6 +57,7 @@ public class Tube implements Geometry {
                 ", radius=" + radius +
                 '}';
     }
+
     @Override
     public Vector getNormal(Point p) {
         Point center = axisRay.getPoint(axisRay.getDir().dotProduct(p.subtract(axisRay.getP0())));
@@ -64,7 +65,8 @@ public class Tube implements Geometry {
     }
 
     @Override
-    public List<Point> findIntersections(Ray ray) {
+    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
         return null;
     }
+
 }

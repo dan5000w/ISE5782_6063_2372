@@ -31,13 +31,12 @@ public class Camera {
      * @param vTo the vector of the direction that the camera is looking at
      */
     public Camera(Point p0, Vector vUp, Vector vTo) {
+        if (!isZero(vTo.dotProduct(vUp)))
+            throw new IllegalArgumentException("vUp and vTo arent orthogonal!");
         this.p0 = p0;
         this.vUp = vUp.normalize();
         this.vTo = vTo.normalize();
-        if (isZero(vTo.dotProduct(vUp))) {
-            this.vRight = vTo.crossProduct(vUp).normalize();
-        } else
-            throw new IllegalArgumentException("vUp and vTo arent orthogonal!");
+        this.vRight = vTo.crossProduct(vUp).normalize();
     }
 
     /**
@@ -67,11 +66,9 @@ public class Camera {
     /**
      * Renders the Image while throwing an exception if values are not initialized
      */
-    void renderImage() {
-        if (p0 == null || vRight == null || vUp == null || vTo == null || heightVP == 0.0 || widthVP == 0.0 ||
-                distanceVP == 0.0 || imageWriter == null || rayTracer == null) {
-            throw new MissingResourceException("ERROR", "Camera", "on of the key has not been initialized");
-            //throw new UnsupportedOperationException("ERROR");
+    public Camera renderImage() {
+        if (heightVP == 0.0 || widthVP == 0.0 || distanceVP == 0.0 || imageWriter == null || rayTracer == null) {
+            throw new MissingResourceException("ERROR", "Camera", "one of the key has not been initialized");
         }
         int nX = imageWriter.getNx();
         int nY = imageWriter.getNy();
@@ -81,6 +78,7 @@ public class Camera {
                 imageWriter.writePixel(i, j, myColor);
             }
         }
+        return this;
     }
 
     /**
@@ -125,7 +123,7 @@ public class Camera {
     /**
      * Writes the data To the image file
      */
-    void writeToImage() {
+    public void writeToImage() {
         if (imageWriter == null)
             throw new MissingResourceException("ERROR", "Camera", "imageWriter");
         imageWriter.writeToImage();

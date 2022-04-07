@@ -53,7 +53,7 @@ public class Cylinder extends Tube {
         Vector rayDir = axisRay.getDir();
         Point centerBottom = axisRay.getP0();
         Point centerTop = axisRay.getPoint(height);
-        if(p.equals(centerTop) || isZero(p.subtract(centerTop).dotProduct(rayDir))) { // on the top
+        if (p.equals(centerTop) || isZero(p.subtract(centerTop).dotProduct(rayDir))) { // on the top
             return rayDir;
         } else if (p.equals(centerBottom) || isZero(p.subtract(centerBottom).dotProduct(rayDir))) { //on the bottom
             return rayDir.scale(-1);
