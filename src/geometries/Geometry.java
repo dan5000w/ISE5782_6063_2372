@@ -48,7 +48,7 @@ public abstract class Geometry extends Intersectable {
     }
 
     /**
-     * Builder pattern setter
+     * Setter of the material
      *
      * @param material the material type
      * @return the updated geometry

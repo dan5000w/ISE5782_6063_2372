@@ -82,7 +82,7 @@ public class Scene {
     }
 
     /**
-     * Builder pattern setter
+     * Setter of the lights
      * @param lights the list of light sources
      * @return the updated scene
      */

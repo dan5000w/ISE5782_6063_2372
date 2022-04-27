@@ -9,8 +9,6 @@ import primitives.Double3;
  * @author Daniel Wolpert, Amitay Cahalon
  */
 public class AmbientLight extends Light {
-    //private Color intensity;
-
     /**
      * Default Constructor, sets color intensity to black
      */

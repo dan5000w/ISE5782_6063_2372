@@ -14,7 +14,7 @@ abstract class RayTracerBase {
     /**
      * a scene in 3D cartesian coordinate system
      */
-    protected Scene scene;
+    protected final Scene scene;
 
     /**
      * Constructor, sets the scene

@@ -2,7 +2,7 @@ package geometries;
 
 import primitives.*;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * Basic interface for intersectable geometries.
@@ -10,7 +10,6 @@ import java.util.*;
  * @author Daniel Wolpert, Amitay Cahalon
  */
 public abstract class Intersectable {
-
 
     /**
      * A tuple of a geometry and a point

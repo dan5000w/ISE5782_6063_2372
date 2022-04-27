@@ -7,19 +7,28 @@ import primitives.*;
  */
 public interface LightSource {
     /**
-     * template for getIntensity function
+     * Calculate the intensity of the light source at the given point
      *
      * @param p the point
-     * @return The intensity of the light source in the given point
+     * @return the calculated intensity
      */
     Color getIntensity(Point p);
 
     /**
-     * template for getL function
+     * Gets vector from the given point to the light source
      *
      * @param p the point
-     * @return The vector from the given point to the light source
+     * @return The vector
      */
     Vector getL(Point p);
+
+
+    /**
+     * Calculates the distance between the light source and a point
+     *
+     * @param p a point
+     * @return the distance
+     */
+    double getDistance(Point p);
 
 }

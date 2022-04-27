@@ -7,12 +7,12 @@ public class Material {
     /**
      * The coefficient of the specular light
      */
-    public double kS = 0;
+    public Double3 kS = Double3.ZERO;
 
     /**
      * The attenuation coefficient of the diffusive light
      */
-    public double kD = 0;
+    public Double3 kD = Double3.ZERO;
 
     /**
      * The shininess level of the material
@@ -21,59 +21,57 @@ public class Material {
 
 
     /**
-     * Builder pattern setter
+     * Setter of the specular light's coefficient kS
      *
-     * @param kS The coefficient of the specular light
+     * @param kS the specular light's coefficient
+     * @return the updated material
      */
-    public Material setKs(double kS) {
+    public Material setKs(Double3 kS) {
         this.kS = kS;
         return this;
     }
 
     /**
-     * Builder pattern setter
+     * Setter of the specular light's coefficient kS
      *
-     * @param kD The attenuation coefficient of the diffusive light
+     * @param kS the specular light's coefficient
+     * @return the updated material
      */
-    public Material setKd(double kD) {
+    public Material setKs(double kS) {
+        this.kS = new Double3(kS);
+        return this;
+    }
+
+    /**
+     * Setter of the specular light's coefficient kS
+     *
+     * @param kD the specular light's attenuation coefficient kD
+     * @return the updated material
+     */
+    public Material setKd(Double3 kD) {
         this.kD = kD;
         return this;
     }
 
     /**
-     * Builder pattern setter
+     * Setter of the specular light's coefficient kS
      *
-     * @param nShininess The shininess level
+     * @param kD the specular light's attenuation coefficient kD
+     * @return the updated material
      */
-    public Material setShininess(int nShininess) {
-        this.nShininess = nShininess;
+    public Material setKd(double kD) {
+        this.kD = new Double3(kD);
         return this;
     }
 
     /**
-     * Gets value of kS
+     * Setter of the nShininess
      *
-     * @return kS
+     * @param nShininess The material's level of shininess
+     * @return the updated material
      */
-    public double getKs() {
-        return kS;
-    }
-
-    /**
-     * Gets value of kS
-     *
-     * @return kD
-     */
-    public double getKd() {
-        return kD;
-    }
-
-    /**
-     * Gets value of the materials Shininess
-     *
-     * @return the shininess
-     */
-    public int getShininess() {
-        return nShininess;
+    public Material setShininess(int nShininess) {
+        this.nShininess = nShininess;
+        return this;
     }
 }

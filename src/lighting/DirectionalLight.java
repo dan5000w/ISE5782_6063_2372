@@ -1,44 +1,36 @@
 package lighting;
 
-import primitives.Color;
-import primitives.Point;
-import primitives.Vector;
+import primitives.*;
 
 /**
  * Directional light class represents a light source with a direction
  */
 public class DirectionalLight extends Light implements LightSource {
 
-    private Vector direction;
+    private final Vector direction;
 
     /**
-     * Builder pattern setter
+     * Constructor of DirectionalLight
      *
      * @param intensity the colors intensity
      */
     public DirectionalLight(Color intensity, Vector dir) {
         super(intensity);
-        direction = dir;
-    }
-
-    /**
-     * Builder pattern setter
-     *
-     * @param direction the direction of the light
-     * @return this
-     */
-    public DirectionalLight setDirection(Vector direction) {
-        this.direction = direction;
-        return this;
+        direction = dir.normalize();
     }
 
     @Override
     public Color getIntensity(Point p) {
-        return getIntensity();
+        return super.getIntensity();
     }
 
     @Override
     public Vector getL(Point p) {
-        return direction.normalize();
+        return direction;
+    }
+
+    @Override
+    public double getDistance(Point p) {
+        return Double.POSITIVE_INFINITY;
     }
 }

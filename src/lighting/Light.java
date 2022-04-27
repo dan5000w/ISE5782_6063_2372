@@ -6,7 +6,7 @@ import primitives.Color;
  * A class that represents a lights
  */
 class Light {
-    private Color intensity;
+    protected final Color intensity;
 
     /**
      * Constructor for light, sets intensity value
@@ -18,7 +18,7 @@ class Light {
     }
 
     /**
-     * The colors intensity
+     * Gets the colors intensity
      *
      * @return the intensity
      */

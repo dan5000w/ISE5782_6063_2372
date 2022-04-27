@@ -1,8 +1,6 @@
 package lighting;
 
-import primitives.Color;
-import primitives.Point;
-import primitives.Vector;
+import primitives.*;
 
 /**
  * Point light class represents a non-directional light source with a position
@@ -12,12 +10,22 @@ public class PointLight extends Light implements LightSource {
     /**
      * The points position
      */
-    protected Point position;
+    protected final Point position;
 
     /**
      * An attenuation coefficient of the light source
      */
-    protected double kC = 1, kL = 0, kQ = 0;
+    protected double kC = 1;
+
+    /**
+     * An attenuation coefficient of the light source
+     */
+    protected double kL = 0;
+
+    /**
+     * An attenuation coefficient of the light source
+     */
+    protected double kQ = 0;
 
     /**
      * Constructor for point-light, sets position value and uses super constructor for intensity's value
@@ -31,21 +39,10 @@ public class PointLight extends Light implements LightSource {
     }
 
     /**
-     * Builder pattern setter
-     *
-     * @param position the position of the Light
-     * @return this
-     */
-    public PointLight setPosition(Point position) {
-        this.position = position;
-        return this;
-    }
-
-    /**
-     * Builder pattern setter
+     * Setter of the light source's attenuation coefficient kC
      *
      * @param kC constant attenuation factor
-     * @return this
+     * @return the updated point light
      */
     public PointLight setKc(double kC) {
         this.kC = kC;
@@ -53,10 +50,10 @@ public class PointLight extends Light implements LightSource {
     }
 
     /**
-     * Builder pattern setter
+     * Setter of the light source's attenuation coefficient kL
      *
-     * @param kL linear attenuation factor
-     * @return this
+     * @param kL constant attenuation factor
+     * @return the updated point light
      */
     public PointLight setKl(double kL) {
         this.kL = kL;
@@ -64,10 +61,10 @@ public class PointLight extends Light implements LightSource {
     }
 
     /**
-     * Builder pattern setter
+     * Setter of the light source's attenuation coefficient kQ
      *
-     * @param kQ quadratic attenuation factor
-     * @return this
+     * @param kQ constant attenuation factor
+     * @return the updated point light
      */
     public PointLight setKq(double kQ) {
         this.kQ = kQ;
@@ -78,11 +75,16 @@ public class PointLight extends Light implements LightSource {
     public Color getIntensity(Point p) {
         double d = p.distance(position);
         // iL = I0 / kC + kL * d + kQ * d^2
-        return getIntensity().scale(1 / (kC + kL * d + kQ * d * d));
+        return intensity.scale(1 / (kC + kL * d + kQ * d * d));
     }
 
     @Override
     public Vector getL(Point p) {
         return p.subtract(position).normalize();
+    }
+
+    @Override
+    public double getDistance(Point p) {
+        return p.distance(position);
     }
 }
