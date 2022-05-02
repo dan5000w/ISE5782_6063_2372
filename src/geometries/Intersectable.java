@@ -53,12 +53,16 @@ public abstract class Intersectable {
     }
 
     /**
-     * Adds an affiliation of a point to a geometry
+     * finds intersections between a shape and a ray where distance to ray head
+     * is smaller than max distance
+     * we've chosen a linked list implementation because of adding complexity and
+     * lack of need for random access.
      *
-     * @param ray the ray to intersect with
-     * @return list of all the intersection points with their geometries
+     * @param ray         the ray to intersect with
+     * @param maxDistance maximum distance to ray head for returned points.
+     * @return list of intersection points with corresponding geometries
      */
-    protected abstract List<GeoPoint> findGeoIntersectionsHelper(Ray ray);
+    abstract List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance);
 
     /**
      * Finds all intersection points and its geometries between the geometry and a ray
@@ -66,8 +70,8 @@ public abstract class Intersectable {
      * @param ray the ray to intersect with
      * @return list of all the intersection points with their geometries
      */
-    public List<GeoPoint> findGeoIntersections(Ray ray) {
-        return findGeoIntersectionsHelper(ray);
+    public final List<GeoPoint> findGeoIntersections(Ray ray) {
+        return findGeoIntersections(ray, Double.POSITIVE_INFINITY);
     }
 
     /**

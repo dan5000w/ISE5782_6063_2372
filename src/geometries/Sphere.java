@@ -66,26 +66,40 @@ public class Sphere extends Geometry {
         return p.subtract(center).normalize();
     }
 
+
     @Override
-    protected List<GeoPoint> findGeoIntersectionsHelper(Ray ray) {
-        Point p0 = ray.getP0();
-        Vector v = ray.getDir();
-        if (p0.equals(center)) //if the ray start is in the center of the sphere
-            return List.of(new GeoPoint(this, ray.getPoint(radius)));
+    public List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        Vector u;
+        try {
+            u = center.subtract(ray.getP0());
+        } catch (IllegalArgumentException ex) { // ray starts at center
+            LinkedList<GeoPoint> res = new LinkedList<>();
+            res.add(new GeoPoint(this,ray.getPoint(radius)));
+            return res;
+        }
+        double tM = u.dotProduct(ray.getDir()); // projection of u on v.
+        double d = Math.sqrt(u.lengthSquared() - (tM*tM));
 
-        Vector u = center.subtract(p0);
-        double tm = v.dotProduct(u);
-        double d2 = u.lengthSquared() - tm * tm;
-        double th2 = alignZero(radius2 - d2);
+        if (d-radius >= 0) return null; // ray is outside of sphere
 
-        if (th2 <= 0) //there is no intersections
-            return null;
-        double th = Math.sqrt(th2);
+        double tH = Math.sqrt(radius*radius - d*d);
+        double t1 = alignZero(tM + tH);
+        double t2 = alignZero(tM - tH);
 
-        double t2 = alignZero(tm + th);
-        if (t2 <= 0) return null; // both are behind the ray
-        double t1 = alignZero(tm - th);
-        return t1 <= 0 ? List.of(new GeoPoint(this, ray.getPoint(t2))) :
-                List.of(new GeoPoint(this, ray.getPoint(t1)), new GeoPoint(this, ray.getPoint(t2)));
+        LinkedList<GeoPoint> res;
+        if((t1 > 0 && alignZero(t1-maxDistance) <= 0) //
+                || (t2 > 0 && alignZero(t2-maxDistance) <= 0)) { // this is done to not initialize for no reason.
+            res = new LinkedList<>();
+            if (t1 > 0 && alignZero(t1-maxDistance) <= 0) {
+                Point p1 = ray.getPoint(t1);
+                res.add(new GeoPoint(this,p1));
+            }
+            if (t2 > 0 && alignZero(t2-maxDistance) <= 0) {
+                Point p2 = ray.getPoint(t2);
+                res.add(new GeoPoint(this,p2));
+            }
+        } else return null;
+
+        return res;
     }
 }

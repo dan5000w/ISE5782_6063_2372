@@ -134,7 +134,7 @@ public class LightsTests {
     }
 
     /**
-     * Produce a picture of a sphere lighted by a directional light
+     * Produce a picture of a sphere lighted by all lights
      */
     @Test
     public void sphereAllLights() {
@@ -151,7 +151,7 @@ public class LightsTests {
     }
 
     /**
-     * Produce a picture of a two triangles lighted by a spot light
+     * Produce a picture of  two triangles lighted by all lights
      */
     @Test
     public void trianglesAllLights() {

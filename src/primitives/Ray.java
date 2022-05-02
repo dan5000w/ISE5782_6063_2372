@@ -13,6 +13,11 @@ import static primitives.Util.*;
  * @author Daniel Wolpert, Amitay Cahalon
  */
 public class Ray {
+    /**
+     * Size of ray's starting point for shading rays
+     */
+    public static final double DELTA = 0.1;
+
     private final Point p0;
     private final Vector dir;
 
@@ -25,6 +30,20 @@ public class Ray {
     public Ray(Point p, Vector v) {
         p0 = p;
         dir = v.normalize();
+    }
+
+    /**
+     * constructor for construction a ray with moved head in delta direction
+     * @param head initial head of ray
+     * @param direction direction of ray
+     * @param normal normal to geometry
+     */
+    public Ray(Point head, Vector direction, Vector normal) {
+        double nd = normal.dotProduct(direction);
+        // nd can't be 0 because of intersections with objects
+        Vector delta = normal.scale(nd > 0 ? DELTA : -DELTA);
+        p0  = head.add(delta);
+        dir = direction.normalize();
     }
 
     /**
@@ -66,6 +85,7 @@ public class Ray {
         return points == null || points.isEmpty() ? null
                 : findClosestGeoPoint(points.stream().map(p -> new GeoPoint(null, p)).toList()).point;
     }
+
 
     /**
      * Finds the point that is the closest to the ray's head
