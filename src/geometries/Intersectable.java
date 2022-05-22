@@ -18,7 +18,7 @@ public abstract class Intersectable {
         /**
          * A geometry (plane, tube ect...)
          */
-        public final Geometry geometry;
+        public Geometry geometry;
         /**
          * A point on the geometry
          */

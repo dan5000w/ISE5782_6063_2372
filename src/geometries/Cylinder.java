@@ -4,6 +4,9 @@ import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import static primitives.Util.*;
 
 /**
@@ -60,5 +63,66 @@ public class Cylinder extends Tube {
         } else { // on the side
             return super.getNormal(p);
         }
+    }
+
+
+    @Override
+    public List<GeoPoint> findGeoIntersections(Ray ray, double maxDistance) {
+        List<GeoPoint> intersections = super.findGeoIntersections(ray, maxDistance);
+
+        Point p0 = axisRay.getP0();
+        Vector dir = axisRay.getDir();
+
+        if (intersections != null) {
+            List<GeoPoint> temp = new LinkedList<>();
+
+            for (GeoPoint g : intersections) {
+                double pointHeight = alignZero(g.point.subtract(p0).dotProduct(dir));
+                if (pointHeight > 0 && pointHeight < height) {
+                    temp.add(g);
+                }
+            }
+
+            if (temp.isEmpty()) {
+                intersections = null;
+            }
+            else {
+                intersections = temp;
+            }
+        }
+
+        List<GeoPoint> planeIntersection = new Plane(p0, dir).findGeoIntersections(ray);
+        if (planeIntersection != null) {
+            GeoPoint point = planeIntersection.get(0);
+            if (point.point.equals(p0) || alignZero(point.point.subtract(p0).lengthSquared() - radius * radius) < 0) {
+                if (intersections == null) {
+                    intersections = new LinkedList<>();
+                }
+                point.geometry = this;
+                intersections.add(point);
+            }
+        }
+
+        Point p1 = p0.add(dir.scale(height));
+
+        planeIntersection = new Plane(p1, dir).findGeoIntersections(ray);
+        if (planeIntersection != null) {
+            GeoPoint point = planeIntersection.get(0);
+            if (point.point.equals(p1) || alignZero(point.point.subtract(p1).lengthSquared() - radius * radius) < 0) {
+                if (intersections == null) {
+                    intersections = new LinkedList<>();
+                }
+                point.geometry = this;
+                intersections.add(point);
+            }
+        }
+
+        if (intersections != null) {
+            for (GeoPoint g : intersections) {
+                g.geometry = this;
+            }
+        }
+
+        return intersections;
     }
 }

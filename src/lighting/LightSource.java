@@ -2,6 +2,8 @@ package lighting;
 
 import primitives.*;
 
+import java.util.List;
+
 /**
  * An interface for light sources
  */
@@ -15,15 +17,6 @@ public interface LightSource {
     Color getIntensity(Point p);
 
     /**
-     * Gets vector from the given point to the light source
-     *
-     * @param p the point
-     * @return The vector
-     */
-    Vector getL(Point p);
-
-
-    /**
      * Calculates the distance between the light source and a point
      *
      * @param p a point
@@ -31,4 +24,19 @@ public interface LightSource {
      */
     double getDistance(Point p);
 
+    /**
+     * Gets vector from the given point to the light source
+     *
+     * @param p the point
+     * @return The vector
+     */
+    Vector getL(Point p);
+
+    /**
+     * Gets vectors from the given point to the light source
+     *
+     * @param p the point
+     * @return all vectors who created
+     */
+    List<Vector> getL2(Point p);
 }
