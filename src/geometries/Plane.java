@@ -89,12 +89,10 @@ public class Plane extends Geometry {
         } catch (IllegalArgumentException ignore) {
             return null;
         }
-
         double denominator = rayDir.dotProduct(normal);
         // if they are parallel
         if (isZero(denominator))
             return null;
-
         //t = n * (Q - Po) / n * v: t>0
         double t = alignZero(normal.dotProduct(u) / denominator);
         return t <= 0 || alignZero(t - maxDistance) > 0 ? null : List.of(new GeoPoint(this, ray.getPoint(t)));

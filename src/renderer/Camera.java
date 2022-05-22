@@ -18,21 +18,17 @@ import static primitives.Util.random;
  * @author Daniel Wolpert, Amitay Cahalon
  */
 public class Camera {
-    private Point p0;
-    private Vector vRight;
-    private Vector vUp;
-    private Vector vTo;
+    private final Point p0;
+    private final Vector vRight;
+    private final Vector vUp;
+    private final Vector vTo;
     private double heightVP;
     private double widthVP;
     private double distanceVP;
     private ImageWriter imageWriter;
     private RayTracerBasic rayTracer;
 
-    /**
-     * The amount of rays of the soft shadow.
-     * (set 0 to `turn off` the action)
-     */
-    public static int softShadowsRays = 1;
+
     /**
      * The amount of rays that will be shot in each row and column,
      * in all picture improvements.
@@ -62,25 +58,13 @@ public class Camera {
      * @param numOfRays the updated num of rays
      * @return the updated camera object
      */
-    public Camera setNumOfRays(int numOfRays) {
+    public Camera setNumOfAliasRays(int numOfRays) {
         if (numOfRays < 1)
             throw new IllegalArgumentException("The number of rays must be greater then 0!");
         aliasRays = numOfRays;
         return this;
     }
 
-    /**
-     * Set the number of `soft shadows` rays
-     *
-     * @param numOfRays the number of `soft shadows` rays
-     * @return the updated camera object
-     */
-    public Camera setSoftShadowsRays(int numOfRays) {
-        if (numOfRays < 0)
-            throw new IllegalArgumentException("numOfRays must be greater then 0!");
-        softShadowsRays = numOfRays;
-        return this;
-    }
 
     /**
      * Updates the size of the view plane

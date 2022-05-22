@@ -7,8 +7,8 @@ import scene.Scene;
 
 import java.util.List;
 
+import static lighting.PointLight.softShadowsRays;
 import static primitives.Util.alignZero;
-import static renderer.Camera.*;
 
 /**
  * RayTracerBasic Class is a class that implements the
@@ -81,8 +81,7 @@ public class RayTracerBasic extends RayTracerBase {
      * @return color at p.
      */
     private Color calcColor(GeoPoint gp, Ray ray) {
-        return calcColor(gp, ray, MAX_CALC_COLOR_LEVEL, INITIAL_K)
-                .add(scene.ambientLight.getIntensity());
+        return calcColor(gp, ray, MAX_CALC_COLOR_LEVEL, INITIAL_K).add(scene.ambientLight.getIntensity());
     }
 
     /**
@@ -118,8 +117,7 @@ public class RayTracerBasic extends RayTracerBase {
             color = calcGlobalEffect(constructReflectedRay(gp.point, v, n), level, material.kR, kkr);
         Double3 kkt = material.kT.product(k);
         if (kkt.greaterThan(MIN_CALC_COLOR_K))
-            color = color.add(
-                    calcGlobalEffect(constructRefractedRay(gp.point, v, n), level, material.kT, kkt));
+            color = color.add(calcGlobalEffect(constructRefractedRay(gp.point, v, n), level, material.kT, kkt));
         return color;
     }
 
@@ -156,13 +154,9 @@ public class RayTracerBasic extends RayTracerBase {
         Color color = Color.BLACK;
         for (var lightSource : scene.lights) {
             // vectors around the light source
-            List<Vector> vectorsL;
-            if (softShadowsRays != 0)
-                vectorsL = lightSource.getL2(point);
-            else
-                vectorsL = List.of(lightSource.getL(point));
+            List<Vector> vectors = (softShadowsRays == 0) ? List.of(lightSource.getL(point)) : lightSource.getL2(point);
             Color helpC = Color.BLACK;
-            for (Vector l : vectorsL) {
+            for (Vector l : vectors) {
                 double nl = alignZero(n.dotProduct(l));
                 if (nl * nv > 0) {
                     Double3 ktr = transparency(geoPoint, lightSource, l, n);
@@ -173,11 +167,7 @@ public class RayTracerBasic extends RayTracerBase {
                     }
                 }
             }
-            if (softShadowsRays != 0)
-                // Divide the color each time by the number of rays
-                color = color.add(helpC.reduce(softShadowsRays));
-            else
-                color = color.add(helpC);
+            color = color.add((softShadowsRays == 0) ? helpC : helpC.reduce(softShadowsRays));
         }
         return color;
     }
@@ -222,7 +212,6 @@ public class RayTracerBasic extends RayTracerBase {
         double lightDistance = ls.getDistance(geoPoint.point);
         var intersections = scene.geometries.findGeoIntersections(lightRay, lightDistance);
         if (intersections == null) return Double3.ONE;
-
         Double3 ktr = Double3.ONE;
         for (GeoPoint gp : intersections) {
             ktr = ktr.product(gp.geometry.getMaterial().kT);

@@ -2,7 +2,6 @@ package lighting;
 
 import org.junit.jupiter.api.Test;
 
-import lighting.*;
 import geometries.*;
 import primitives.*;
 import renderer.*;
@@ -16,30 +15,30 @@ import static java.awt.Color.*;
  * @author Dan
  */
 public class LightsTests {
-    private Scene scene1 = new Scene("Test scene");
-    private Scene scene2 = new Scene("Test scene") //
+    private final Scene scene1 = new Scene("Test scene");
+    private final Scene scene2 = new Scene("Test scene") //
             .setAmbientLight(new AmbientLight(new Color(WHITE), new Double3(0.15)));
-    private Camera camera1 = new Camera(new Point(0, 0, 1000), new Vector(0, 1, 0), new Vector(0, 0, -1)) //
+    private final Camera camera1 = new Camera(new Point(0, 0, 1000), new Vector(0, 1, 0), new Vector(0, 0, -1)) //
             .setVPSize(150, 150) //
             .setVPDistance(1000);
-    private Camera camera2 = new Camera(new Point(0, 0, 1000), new Vector(0, 1, 0), new Vector(0, 0, -1)) //
+    private final Camera camera2 = new Camera(new Point(0, 0, 1000), new Vector(0, 1, 0), new Vector(0, 0, -1)) //
             .setVPSize(200, 200) //
             .setVPDistance(1000);
 
-    private Point[] p = { // The Triangles' vertices:
+    private final Point[] p = { // The Triangles' vertices:
             new Point(-110, -110, -150), // the shared left-bottom
             new Point(95, 100, -150), // the shared right-top
             new Point(110, -110, -150), // the right-bottom
             new Point(-75, 78, 100)}; // the left-top
-    private Point trPL = new Point(30, 10, -100); // Triangles test Position of Light
-    private Point spPL = new Point(-50, -50, 25); // Sphere test Position of Light
-    private Color trCL = new Color(800, 500, 250); // Triangles test Color of Light
-    private Color spCL = new Color(800, 500, 0); // Sphere test Color of Light
-    private Vector trDL = new Vector(-2, -2, -2); // Triangles test Direction of Light
-    private Material material = new Material().setKd(0.5).setKs(0.5).setShininess(300);
-    private Geometry triangle1 = new Triangle(p[0], p[1], p[2]).setMaterial(material);
-    private Geometry triangle2 = new Triangle(p[0], p[1], p[3]).setMaterial(material);
-    private Geometry sphere = new Sphere(new Point(0, 0, -50), 50d) //
+    private final Point trPL = new Point(30, 10, -100); // Triangles test Position of Light
+    private final Point spPL = new Point(-50, -50, 25); // Sphere test Position of Light
+    private final Color trCL = new Color(800, 500, 250); // Triangles test Color of Light
+    private final Color spCL = new Color(800, 500, 0); // Sphere test Color of Light
+    private final Vector trDL = new Vector(-2, -2, -2); // Triangles test Direction of Light
+    private final Material material = new Material().setKd(0.5).setKs(0.5).setShininess(300);
+    private final Geometry triangle1 = new Triangle(p[0], p[1], p[2]).setMaterial(material);
+    private final Geometry triangle2 = new Triangle(p[0], p[1], p[3]).setMaterial(material);
+    private final Geometry sphere = new Sphere(new Point(0, 0, -50), 50d) //
             .setEmission(new Color(BLUE).reduce(2)) //
             .setMaterial(new Material().setKd(0.5).setKs(0.5).setShininess(300));
 
@@ -74,7 +73,7 @@ public class LightsTests {
     }
 
     /**
-     * Produce a picture of a sphere lighted by a spot light
+     * Produce a picture of a sphere lighted by a spotlight
      */
     @Test
     public void sphereSpot() {
@@ -89,7 +88,7 @@ public class LightsTests {
     }
 
     /**
-     * Produce a picture of a two triangles lighted by a directional light
+     * Produce a picture of two triangles lighted by a directional light
      */
     @Test
     public void trianglesDirectional() {
@@ -104,7 +103,7 @@ public class LightsTests {
     }
 
     /**
-     * Produce a picture of a two triangles lighted by a point light
+     * Produce a picture of two triangles lighted by a point light
      */
     @Test
     public void trianglesPoint() {
@@ -119,7 +118,7 @@ public class LightsTests {
     }
 
     /**
-     * Produce a picture of a two triangles lighted by a spot light
+     * Produce a picture of two triangles lighted by a spotlight
      */
     @Test
     public void trianglesSpot() {
@@ -140,8 +139,8 @@ public class LightsTests {
     public void sphereAllLights() {
         scene1.geometries.add(sphere);
         scene1.lights.add(new DirectionalLight(new Color(600, 200, 0), new Vector(3, 3, 0.5)));
-        scene1.lights.add(new SpotLight((new Color(500, 300, 100)), new Point(50,-50,25), new Vector(-1, 1, -0.5)).setKl(0.001).setKq(0.0001));
-        scene1.lights.add(new PointLight(new Color(100, 800, 150), new Point(50,50,25)).setKl(0.001).setKq(0.0002));
+        scene1.lights.add(new SpotLight((new Color(500, 300, 100)), new Point(50, -50, 25), new Vector(-1, 1, -0.5)).setKl(0.001).setKq(0.0001));
+        scene1.lights.add(new PointLight(new Color(100, 800, 150), new Point(50, 50, 25)).setKl(0.001).setKq(0.0002));
 
         ImageWriter imageWriter = new ImageWriter("lightSphereAllLights", 500, 500);
         camera1.setImageWriter(imageWriter) //
@@ -157,8 +156,8 @@ public class LightsTests {
     public void trianglesAllLights() {
         scene2.geometries.add(triangle1, triangle2);
         scene2.lights.add(new DirectionalLight(new Color(200, 80, 50), new Vector(2, 2, -1)));
-        scene2.lights.add(new SpotLight((new Color(600, 200, 150)), new Point(50,-50,-40), new Vector(-1, 1, -0.5)).setKl(0.001).setKq(0.0001));
-        scene2.lights.add(new PointLight(new Color(600, 200, 150), new Point(55,45,-50)).setKl(0.001).setKq(0.0002));
+        scene2.lights.add(new SpotLight((new Color(600, 200, 150)), new Point(50, -50, -40), new Vector(-1, 1, -0.5)).setKl(0.001).setKq(0.0001));
+        scene2.lights.add(new PointLight(new Color(600, 200, 150), new Point(55, 45, -50)).setKl(0.001).setKq(0.0002));
 
         ImageWriter imageWriter = new ImageWriter("lightTrianglesAllLights", 500, 500);
         camera2.setImageWriter(imageWriter) //

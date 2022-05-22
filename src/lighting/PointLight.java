@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static primitives.Util.randomDoubleBetweenTwoNumbers;
-import static renderer.Camera.softShadowsRays;
 
 /**
  * Point light class represents a non-directional light source with a position
@@ -37,7 +36,13 @@ public class PointLight extends Light implements LightSource {
     /**
      * square edge size parameter
      */
-    private int LengthOfTheSide = 1;
+    private int lengthOfTheSide;
+
+    /**
+     * The amount of rays of the soft shadow.
+     * (set 0 to `turn off` the action)
+     */
+    public static int softShadowsRays;
 
     /**
      * Setter of the square edge size parameter
@@ -46,7 +51,22 @@ public class PointLight extends Light implements LightSource {
      * @return the updated point light
      */
     public PointLight setLengthOfTheSide(int lengthOfTheSide) {
-        LengthOfTheSide = lengthOfTheSide;
+        if (lengthOfTheSide < 0)
+            throw new IllegalArgumentException("LengthOfTheSide must be greater then 0");
+        this.lengthOfTheSide = lengthOfTheSide;
+        return this;
+    }
+
+    /**
+     * Set the number of `soft shadows` rays
+     *
+     * @param numOfRays the number of `soft shadows` rays
+     * @return the updated camera object
+     */
+    public PointLight setSoftShadowsRays(int numOfRays) {
+        if (numOfRays < 0)
+            throw new IllegalArgumentException("numOfRays must be greater then 0!");
+        softShadowsRays = numOfRays;
         return this;
     }
 
@@ -58,8 +78,10 @@ public class PointLight extends Light implements LightSource {
     public PointLight(Color intensity, Point position) {
         super(intensity);
         this.position = position;
-
+        softShadowsRays = 0;
+        lengthOfTheSide = 0;
     }
+
 
     /**
      * Setter of the light source's attenuation coefficient kC
@@ -113,6 +135,7 @@ public class PointLight extends Light implements LightSource {
 
     @Override
     public List<Vector> getL2(Point p) {
+        if (lengthOfTheSide == 0) return List.of(getL(p));
         List<Vector> vectors = new LinkedList<>();
         // help vectors
         Vector v0, v1;
@@ -123,16 +146,16 @@ public class PointLight extends Light implements LightSource {
         // vectors of the plane
         List<Vector> vectorsOfThePlane = findVectorsOfPlane(plane);
         // Starting point of the square around the lighting
-        Point startPoint = position.add(vectorsOfThePlane.get(0).normalize().scale(-LengthOfTheSide / 2.0))
-                .add(vectorsOfThePlane.get(1).normalize().scale(-LengthOfTheSide / 2.0));
+        Point startPoint = position.add(vectorsOfThePlane.get(0).normalize().scale(-lengthOfTheSide / 2.0))
+                .add(vectorsOfThePlane.get(1).normalize().scale(-lengthOfTheSide / 2.0));
 
         // A loop that runs as the number of vectors and in each of its runs it brings a vector around the lamp
-        for (double i = 0; i < LengthOfTheSide; i += LengthOfTheSide / divided) {
-            for (double j = 0; j < LengthOfTheSide; j += LengthOfTheSide / divided) {
+        for (double i = 0; i < lengthOfTheSide; i += lengthOfTheSide / divided) {
+            for (double j = 0; j < lengthOfTheSide; j += lengthOfTheSide / divided) {
                 v0 = vectorsOfThePlane.get(0).normalize()
-                        .scale(randomDoubleBetweenTwoNumbers(i, i + LengthOfTheSide / divided));
+                        .scale(randomDoubleBetweenTwoNumbers(i, i + lengthOfTheSide / divided));
                 v1 = vectorsOfThePlane.get(1).normalize()
-                        .scale(randomDoubleBetweenTwoNumbers(j, j + LengthOfTheSide / divided));
+                        .scale(randomDoubleBetweenTwoNumbers(j, j + lengthOfTheSide / divided));
                 vectors.add(p.subtract(startPoint.add(v0).add(v1)).normalize());
             }
         }
