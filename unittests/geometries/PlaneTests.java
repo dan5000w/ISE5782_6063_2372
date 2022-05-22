@@ -22,7 +22,6 @@ class PlaneTests {
     @Test
     public void testConstructor() {
         // ============ Equivalence Partitions Tests ==============
-
         // T01: Correct plane initialization
         try {
             new Plane(new Point(1, 0, 0), new Point(0, 1, 0), new Point(-1, 1, 1));

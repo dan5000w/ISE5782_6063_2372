@@ -44,7 +44,7 @@ public class ReflectionRefractionTests {
     }
 
     /**
-     * Produce a picture of a sphere lighted by a spot light
+     * Produce a picture of a sphere lighted by a spotlight
      */
     @Test
     public void twoSpheresOnMirrors() {
@@ -77,7 +77,7 @@ public class ReflectionRefractionTests {
     }
 
     /**
-     * Produce a picture of a two triangles lighted by a spot light with a partially
+     * Produce a picture of two triangles lighted by a spotlight with a partially
      * transparent Sphere producing partial shadow
      */
     @Test
@@ -108,6 +108,7 @@ public class ReflectionRefractionTests {
     /**
      * An image that we created, with over 10 geometries and lights, reflections and refractions.
      */
+    /*
     @Test
     public void specialPicture() {
         Camera camera1 = new Camera(new Point(0, 0, 2000), new Vector(0, 1, 0), new Vector(0, 0, -1)) //
@@ -161,6 +162,7 @@ public class ReflectionRefractionTests {
     /**
      * An image that we created, with over 10 geometries and lights, reflections and refractions, from a different angle.
      */
+    /*
     @Test
     public void specialPictureDifferentAngle() {
         Camera camera2 = new Camera(new Point(-200, 200, 700), new Vector(1, -1, 1), new Vector(1, -1, -2)) //
@@ -209,5 +211,5 @@ public class ReflectionRefractionTests {
                 .setRayTracer(new RayTracerBasic(scene)) //
                 .renderImage() //
                 .writeToImage();
-    }
+    } */
 }
