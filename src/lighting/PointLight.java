@@ -144,7 +144,7 @@ public class PointLight extends Light implements LightSource {
         // plane of the light
         Plane plane = new Plane(position, getL(p));
         // vectors of the plane
-        List<Vector> vectorsOfThePlane = findVectorsOfPlane(plane);
+        List<Vector> vectorsOfThePlane = plane.findVectorsOfPlane();
         // Starting point of the square around the lighting
         Point startPoint = position.add(vectorsOfThePlane.get(0).normalize().scale(-lengthOfTheSide / 2.0))
                 .add(vectorsOfThePlane.get(1).normalize().scale(-lengthOfTheSide / 2.0));
@@ -162,28 +162,4 @@ public class PointLight extends Light implements LightSource {
         return vectors;
     }
 
-    private List<Vector> findVectorsOfPlane(Plane plane) {
-        List<Vector> vectors = new LinkedList<>();
-        double nX = plane.getNormal().getX(), nY = plane.getNormal().getY(), nZ = plane.getNormal().getZ();
-        double pX = plane.getP0().getX(), pY = plane.getP0().getY(), pZ = plane.getP0().getZ();
-        double d = -(nX * pX + nY * pY + nZ * pZ);
-        Point p0 = plane.getP0();
-        int amount = 0;
-        // we calculate a point on the plane, and then we create a vector with the point
-        if (nX != 0) {
-            double x1 = (d / nX);
-            vectors.add((new Point(x1, 0, 0)).subtract(p0));
-            amount++;
-        }
-        if (nY != 0) {
-            double y2 = (d / nY);
-            vectors.add((new Point(0, y2, 0)).subtract(p0));
-            amount++;
-        }
-        if (nZ != 0 && amount < 2) {
-            double z3 = (d / nZ);
-            vectors.add((new Point(0, 0, z3)).subtract(p0));
-        }
-        return vectors;
-    }
 }
