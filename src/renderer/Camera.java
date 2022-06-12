@@ -8,6 +8,7 @@ import primitives.Vector;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.MissingResourceException;
+import java.util.stream.IntStream;
 
 import static primitives.Util.isZero;
 import static primitives.Util.random;
@@ -92,22 +93,37 @@ public class Camera {
 
     /**
      * Renders the Image while throwing an exception if values are not initialized
+     * @apiNote can throw MissingResourceException
+     * @return the camera object itself
      */
     public Camera renderImage() {
         if (imageWriter == null || rayTracer == null)
-            throw new MissingResourceException("ERROR", "Camera", "one of the key has not been initialized");
+            throw new MissingResourceException("ERROR", "Camera", "one of the key has not been initialized!");
+        return renderImageThreaded();
+    }
 
-        int nX = imageWriter.getNx();
-        int nY = imageWriter.getNy();
-        for (int i = 0; i < nX; ++i) {
-            for (int j = 0; j < nY; ++j) {
-                List<Ray> rays = constructRays(nX, nY, i, j);
-                Color color = Color.BLACK;
-                for (Ray ray : rays)
-                    color = color.add(rayTracer.traceRay(ray));
-                imageWriter.writePixel(i, j, color.reduce(rays.size()));
-            }
-        }
+    private Color getAveragePixelColor(int nX, int nY, int i, int j) {
+        List<Ray> rays = constructRays(nX, nY, i, j);
+        Color color = Color.BLACK;
+        for (Ray ray : rays)
+            color = color.add(rayTracer.traceRay(ray));
+        return color.reduce(rays.size());
+    }
+
+
+    /**
+     * Renders the Image using
+     * @return the camera object itself
+     */
+    private Camera renderImageThreaded() {
+        final int nX = imageWriter.getNx();
+        final int nY = imageWriter.getNy();
+        Pixel.initialize(nY, nX, 0);
+        IntStream.range(0, nY).parallel().forEach(i -> IntStream.range(0, nX).parallel().forEach(j -> {
+            imageWriter.writePixel(i, j, getAveragePixelColor(nX, nY, i, j));
+            Pixel.pixelDone();
+            Pixel.printPixel();
+        }));
         return this;
     }
 

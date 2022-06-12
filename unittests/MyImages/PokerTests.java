@@ -15,7 +15,7 @@ import scene.Scene;
  */
 public class PokerTests {
     @Test
-    public void poker() {
+    public void poker1() {
         Scene scene = new Scene("Poker with Anti-aliasing without soft shadows");
 
         Camera camera = new Camera(
