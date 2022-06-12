@@ -15,7 +15,7 @@ import static primitives.Util.*;
  *
  * @author Daniel Wolpert, Amitay Cahalon
  */
-public class Sphere extends Geometry {
+public class Sphere extends Geometry implements Boundable {
 
     private final Point center;
     private final double radius;
@@ -74,32 +74,50 @@ public class Sphere extends Geometry {
             u = center.subtract(ray.getP0());
         } catch (IllegalArgumentException ex) { // ray starts at center
             LinkedList<GeoPoint> res = new LinkedList<>();
-            res.add(new GeoPoint(this,ray.getPoint(radius)));
+            res.add(new GeoPoint(this, ray.getPoint(radius)));
             return res;
         }
         double tM = u.dotProduct(ray.getDir()); // projection of u on v.
-        double d = Math.sqrt(u.lengthSquared() - (tM*tM));
+        double d = Math.sqrt(u.lengthSquared() - (tM * tM));
 
-        if (d-radius >= 0) return null; // ray is outside of sphere
+        if (d - radius >= 0) return null; // ray is outside of sphere
 
-        double tH = Math.sqrt(radius*radius - d*d);
+        double tH = Math.sqrt(radius2 - d * d);
         double t1 = alignZero(tM + tH);
         double t2 = alignZero(tM - tH);
 
         LinkedList<GeoPoint> res;
-        if((t1 > 0 && alignZero(t1-maxDistance) <= 0) //
-                || (t2 > 0 && alignZero(t2-maxDistance) <= 0)) { // this is done to not initialize for no reason.
+        if ((t1 > 0 && alignZero(t1 - maxDistance) <= 0) //
+                || (t2 > 0 && alignZero(t2 - maxDistance) <= 0)) { // this is done to not initialize for no reason.
             res = new LinkedList<>();
-            if (t1 > 0 && alignZero(t1-maxDistance) <= 0) {
+            if (t1 > 0 && alignZero(t1 - maxDistance) <= 0) {
                 Point p1 = ray.getPoint(t1);
-                res.add(new GeoPoint(this,p1));
+                res.add(new GeoPoint(this, p1));
             }
-            if (t2 > 0 && alignZero(t2-maxDistance) <= 0) {
+            if (t2 > 0 && alignZero(t2 - maxDistance) <= 0) {
                 Point p2 = ray.getPoint(t2);
-                res.add(new GeoPoint(this,p2));
+                res.add(new GeoPoint(this, p2));
             }
         } else return null;
 
         return res;
     }
+
+    @Override
+    public AxisAlignedBoundingBox getAxisAlignedBoundingBox() {
+        double centerX = center.getX();
+        double centerY = center.getY();
+        double centerZ = center.getZ();
+        AxisAlignedBoundingBox res = new AxisAlignedBoundingBox(
+                centerX - radius,
+                centerY - radius,
+                centerZ - radius,
+                centerX + radius,
+                centerY + radius,
+                centerZ + radius);
+        res.addToContains(this);
+
+        return res;
+    }
 }
+

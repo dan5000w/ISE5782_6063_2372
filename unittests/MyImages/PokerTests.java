@@ -14,7 +14,7 @@ import scene.Scene;
  * @author Daniel Wolpert & Amitay Cahalon
  */
 public class PokerTests {
-    @Test
+    //@Test
     public void poker1() {
         Scene scene = new Scene("Poker with Anti-aliasing without soft shadows");
 
@@ -23,7 +23,7 @@ public class PokerTests {
                 .setVPSize(1, 1).setVPDistance(1).setNumOfAliasRays(15);
         scene.setBackground(new Color(1, 50, 32));
 
-        scene.geometries.add( //
+        scene.geometries.setAxisAlignedBoundingBox(true).add( //
                 new Plane(new Point(1, 0, 0), new Point(0, 1, 0), new Point(0, 0, 0))
                         .setEmission(new Color(40, 40, 40)).setMaterial(new Material().setKd(0.5).setKs(0.5)
                                 .setShininess(50).setKr(new Double3(0.95)))
@@ -108,7 +108,7 @@ public class PokerTests {
                 .setVPSize(1, 1).setVPDistance(1);
         scene.setBackground(new Color(1, 50, 32));
 
-        scene.geometries.add( //
+        scene.geometries.setAxisAlignedBoundingBox(true).add( //
                 new Plane(new Point(1, 0, 0), new Point(0, 1, 0), new Point(0, 0, 0))
                         .setEmission(new Color(40, 40, 40)).setMaterial(new Material().setKd(0.5).setKs(0.5)
                                 .setShininess(50).setKr(new Double3(0.95)))
@@ -197,7 +197,7 @@ public class PokerTests {
                 .setVPSize(1, 1).setVPDistance(1);
         scene.setBackground(new Color(1, 50, 32));
 
-        scene.geometries.add( //
+        scene.geometries.setAxisAlignedBoundingBox(true).add( //
                 new Plane(new Point(1, 0, 0), new Point(0, 1, 0), new Point(0, 0, 0))
                         .setEmission(new Color(40, 40, 40)).setMaterial(new Material().setKd(0.5).setKs(0.5)
                                 .setShininess(50).setKr(new Double3(0.95)))
@@ -273,7 +273,7 @@ public class PokerTests {
                 .writeToImage();
     }
 
-    @Test
+    //@Test
     public void poker4() {
         Scene scene = new Scene("Poker with Anti-aliasing with soft shadows");
         Camera camera = new Camera(
@@ -281,7 +281,7 @@ public class PokerTests {
                 .setVPSize(1, 1).setVPDistance(1).setNumOfAliasRays(5);
         scene.setBackground(new Color(1, 50, 32));
 
-        scene.geometries.add( //
+        scene.geometries.setAxisAlignedBoundingBox(true).add( //
                 new Plane(new Point(1, 0, 0), new Point(0, 1, 0), new Point(0, 0, 0))
                         .setEmission(new Color(40, 40, 40)).setMaterial(new Material().setKd(0.5).setKs(0.5)
                                 .setShininess(50).setKr(new Double3(0.95)))
