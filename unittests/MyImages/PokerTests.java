@@ -14,13 +14,13 @@ import scene.Scene;
  * @author Daniel Wolpert & Amitay Cahalon
  */
 public class PokerTests {
-    //@Test
+    @Test
     public void poker1() {
         Scene scene = new Scene("Poker with Anti-aliasing without soft shadows");
 
         Camera camera = new Camera(
                 new Point(7, 5, 2), new Vector(0, 0, 1), new Vector(-1, -0.5, 0))
-                .setVPSize(1, 1).setVPDistance(1).setNumOfAliasRays(15);
+                .setVPSize(1, 1).setVPDistance(1).setNumOfAliasRays(5);
         scene.setBackground(new Color(1, 50, 32));
 
         scene.geometries.setAxisAlignedBoundingBox(true).add( //
@@ -175,13 +175,9 @@ public class PokerTests {
                         .setEmission(new Color(40, 40, 40)).setMaterial(new Material().setKd(0.5).setKs(0.5)
                                 .setShininess(10).setKr(new Double3(0.4))));
 
-        scene.lights.add(new SpotLight(new Color(255, 255, 255), new Point(3, 3, 3),
-                new Vector(-1, -0.25, 0)));
-
-
         scene.lights.add(new SpotLight(new Color(255, 255, 255),
                 new Point(3, 3, 3), new Vector(-1, -0.25, 0))
-                .setLengthOfTheSide(5).setSoftShadowsRays(100));
+                .setLengthOfTheSide(5).setSoftShadowsRays(20));
 
         camera.setImageWriter(new ImageWriter("Poker without Anti-aliasing with soft shadows", 500, 500)) //
                 .setRayTracer(new RayTracerBasic(scene)) //
@@ -273,7 +269,7 @@ public class PokerTests {
                 .writeToImage();
     }
 
-    //@Test
+    @Test
     public void poker4() {
         Scene scene = new Scene("Poker with Anti-aliasing with soft shadows");
         Camera camera = new Camera(
@@ -349,7 +345,7 @@ public class PokerTests {
                                 .setShininess(10).setKr(new Double3(0.4))));
 
         scene.lights.add(new SpotLight(new Color(255, 255, 255), new Point(3, 3, 3),
-                new Vector(-1, -0.25, 0)).setLengthOfTheSide(4).setSoftShadowsRays(30));
+                new Vector(-1, -0.25, 0)).setLengthOfTheSide(4).setSoftShadowsRays(20));
 
         camera.setImageWriter(new ImageWriter("Poker with Anti-aliasing with soft shadows", 500, 500)) //
                 .setRayTracer(new RayTracerBasic(scene)) //

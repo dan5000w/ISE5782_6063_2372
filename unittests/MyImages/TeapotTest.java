@@ -23,8 +23,7 @@ public class TeapotTest {
 
     private final Camera camera = new Camera(new Point(0, 0, -1000), new Vector(0, 1, 0), new Vector(0, 0, 1)) //
             .setVPDistance(1000).setVPSize(200, 200) //
-            .setImageWriter(imageWriter) //
-            ;
+            .setImageWriter(imageWriter);
 
     private final Scene scene = new Scene("Test scene");
 
@@ -1564,8 +1563,6 @@ public class TeapotTest {
                 new Triangle(myPoints[529], myPoints[530], myPoints[470]).setEmission(color).setMaterial(mat) //
         );
         scene.lights.add(new PointLight(new Color(500, 500, 500), new Point(100, 0, -100)).setKq(0.000001));
-
         camera.setRayTracer(new RayTracerBasic(scene)).renderImage().writeToImage();
     }
-
 }
